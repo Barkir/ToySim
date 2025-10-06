@@ -1,4 +1,2 @@
-XOR rd, rs, rt ; xor operation
-J smwhr
-CBIT rd, rs, #47
-SUBI rt, rs, #45
+SUBI R7, R8, 4095 ; xor operation
+smwhr:
