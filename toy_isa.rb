@@ -94,8 +94,40 @@ class Parser
                 number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
                 pc += INSTRUCTION_OFFSET[tokens[i]]
 
+            when "BEXT"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "LDP"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "ADD"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "LD"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "CLS"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "RORI"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "ST"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
             when "XOR"
                 number = translate_xor(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
+                pc += INSTRUCTION_OFFSET[tokens[i]]
+
+            when "SYSCALL"
+                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
                 pc += INSTRUCTION_OFFSET[tokens[i]]
             end
         end
