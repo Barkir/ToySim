@@ -26,60 +26,13 @@ class Parser
     def translate_tokens(tokens)
         pc = 0
         (0...tokens.size).each do |i|
-            case tokens[i]
-            # when "J"
-            when "CBIT"
-                number = translate_cbit(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "SUBI"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "MOVN"
-                number = translate_movn(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "BEQ"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "BEXT"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "LDP"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "ADD"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "LD"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "CLS"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "RORI"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "ST"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "XOR"
-                number = translate_xor(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
-
-            when "SYSCALL"
-                number = translate_subi(tokens[i+1..i+INSTRUCTION_OFFSET[tokens[i]]])
-                pc += INSTRUCTION_OFFSET[tokens[i]]
+            instr = tokens[i]
+            if INSTRUCTION_SET.key?(instr) && instr != "J"
+                offset = INSTRUCTION_OFFSET[instr]
+                number = send("translate_#{instr.downcase}", tokens[i+1..i+offset]) # sends a message (works like eval in python)
+                pc += offset
             end
+            e
         end
     end
 
