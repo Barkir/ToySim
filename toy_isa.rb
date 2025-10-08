@@ -3,36 +3,59 @@ require_relative "constants"
 class Parser
     include Constants
 
-    # for all numbers from 0 to 15 we create an array [R{i}, i].
-    # then we turn it to hash_table with .to_h and then we make it constant by .freeze
-    REGISTERS = (0..15).map {|i| ["R#{i}", i]}.to_h.freeze
-
-
     def get_tokens(text)
         # creating flat array of tokens from lines
         # [["XOR", "R1", "R2", "R3"], ["ADD", "R2", "R7", "R9"]] -> ["XOR", "R1", "R2", "R3", "ADD", "R2", "R7", "R9"]
         text.lines.map.flat_map do |line|
             line = line.split(";", 2).first.to_s.strip || line # fuck comments
             next [] if line.empty? # skip empty arrays
-            if line.end_with?(":") && line.include?(" ")
+            if line.end_with?(":")
                 # raising error if wrong label format
-                raise "Error: label contains spaces -> #{line}"
+                j_instr = line.split
+                if j_instr[0] == "J" && j_instr[1].include?(" ")
+                    raise "Error: label contains spaces -> #{line}"
+                end
             end
             line = line.gsub(/[()]/, " ") # replacing brackets with space symbol
             tokens = line.split.map {|t| t.delete(",").delete("#").delete(" ")} # deleting commas (fuck commas (and #commas))
         end
     end
 
-    def translate_tokens(tokens)
+
+    def fill_labels(tokens)
+        labels_dict = {}
+        pc = 0
+        (0..tokens.size - 1).each do |i|
+            token = tokens[i]
+            if is_label(token)
+                pc += 1
+                labels_dict[token] = pc
+            else
+                pc += 1
+            end
+
+        end
+        return labels_dict
+    end
+
+
+    def translate_tokens(tokens, labels_dict)
         pc = 0
         (0...tokens.size).each do |i|
             instr = tokens[i]
             if INSTRUCTION_SET.key?(instr) && instr != "J"
                 offset = INSTRUCTION_OFFSET[instr]
-                number = send("translate_#{instr.downcase}", tokens[i+1..i+offset]) # sends a message (works like eval in python)
+                instruction = send("translate_#{instr.downcase}", tokens[i+1..i+offset]) # sends a message (works like eval in python)
+                pc += offset
+            elsif INSTRUCTION_SET.key?(instr) && instr == "J"
+                offset = INSTRUCTION_OFFSET[instr]
+
+                label = tokens[i+1]
+                label_pc = labels_dict[label]
+
+                instruction = translate_j(label_pc, pc)
                 pc += offset
             end
-            e
         end
     end
 
@@ -40,6 +63,16 @@ class Parser
 # WARNING! THERE IS A PRIVATE SWAMP OF MAGIC NUMBERS DOWN HERE (｀∀´)っ🗑️
 # ======================================================================
     private # <- запривачено
+
+    def is_label(token)
+        token.end_with?(":")
+    end
+
+    def translate_j(label_pc, pc)
+        opcode = INSTRUCTION_SET["J"]
+        (opcode << 26) | (label_pc - (pc + 1)) # count jmp from the next pc after jmp (from label)
+    end
+
 
     def translate_xor(operands)
         rd, rs, rt = get_regs(operands)
@@ -157,6 +190,7 @@ if __FILE__ == $0
     parser = Parser.new
     source = File.read("file.txt")
     tokens = parser.get_tokens(source)
-    parser.translate_tokens(tokens)
+    lab_dict = parser.fill_labels(tokens)
+    parser.translate_tokens(tokens, lab_dict)
 end
 

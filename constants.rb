@@ -32,3 +32,8 @@ module Constants
         'XOR'  => 3,
         'SYSCALL' => 1
     }.freeze # nobody can change me!
+
+    # for all numbers from 0 to 15 we create an array [R{i}, i].
+    # then we turn it to hash_table with .to_h and then we make it constant by .freeze
+    REGISTERS = (0..15).map {|i| ["R#{i}", i]}.to_h.freeze
+end
