@@ -1,5 +1,5 @@
 # TOY ISA (interpreter)
-![alt text](image-1.png)
+![alt text](readme/image.png)
 
 
 ## MicroAssembler
