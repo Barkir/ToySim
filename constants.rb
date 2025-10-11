@@ -35,5 +35,5 @@ module Constants
 
     # for all numbers from 0 to 15 we create an array [R{i}, i].
     # then we turn it to hash_table with .to_h and then we make it constant by .freeze
-    REGISTERS = (0..15).map {|i| ["R#{i}", i]}.to_h.freeze
+    REGISTERS = (0..31).map {|i| ["R#{i}", i]}.to_h.freeze
 end
