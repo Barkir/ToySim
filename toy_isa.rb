@@ -182,7 +182,14 @@ class MicroAsm
         end
 
         @commands.each_with_index do |cmd, idx|
-            printf "0x%04X: %032b\n", idx, cmd
+            printf "0x%04X: %08X\n", idx, cmd
+        end
+
+        puts "Writing to file result.bin..."
+        File.open("result.bin", "wb") do |file|
+            @commands.each do |elem|
+                file.write([elem].pack("N"))
+            end
         end
     end
 
@@ -302,6 +309,7 @@ class MicroAsm
     def translate_syscall()
         code = 0 # <- wtf ???
         opcode = INSTRUCTION_SET["SYSCALL"]
+
         (0 << 26) | (code) << 6 | opcode
     end
 
