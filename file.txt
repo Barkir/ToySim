@@ -1,3 +1,0 @@
-SUBI R7, R8, 4095 ; xor operation
-smwhr:
-J smwhr:

@@ -26,76 +26,171 @@ class MicroAsm
     end
 
     def prog(&block)
+        @collecting_labels = true
+        @pc = 0
+        instance_eval(&block)
+
+        @pc = 0
+        @collecting_labels = false
         instance_eval(&block)
     end
 
+    def jmp(label)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
+        @commands[@pc] = translate_j(@labels[label])
+        @pc += 1
+    end
+
     def cbit(rd, rs, imm5)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_cbit([rd, rs, imm5])
         @pc += 1
     end
 
     def subi(rt, rs, imm)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_subi([rt, rs, imm])
         @pc += 1
     end
 
     def movn(rd, rs, rt)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_movn([rd, rs, rt])
         @pc += 1
     end
 
     def beq(rs, rt, offset)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_beq([rs, rt, offset])
         @pc += 1
     end
 
     def bext(rd, rs1, rs2)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_bext([rd, rs1, rs2])
         @pc += 1
     end
 
     def ldp(rt1, rt2, offbase)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_ldp([rt1, rt2, offbase])
         @pc += 1
     end
 
     def add(rd, rs, rt)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = tranlsate_add([rd, rs, rt])
         @pc += 1
     end
 
     def ld(rt, offbase)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_ld([rt, offbase])
         @pc += 1
     end
 
     def cls(rd, rs)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_cls([rd, rs])
         @pc += 1
     end
 
     def rori(rd, rs, imm5)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_rori([rd, rs, imm5])
         @pc += 1
     end
 
     def st(rt, offbase)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_st([rt, offbase])
         @pc += 1
     end
 
     def xor(rd, rs, rt)
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_xor([rd, rs, rt])
         @pc += 1
     end
 
     def syscall()
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
         @commands[@pc] = translate_syscall()
         @pc += 1
     end
 
-    def hlt
-        # insert labels to right positions
+    def hlt()
+        if @collecting_labels
+            @pc += 1
+            return
+        end
+
+        @commands.each_with_index do |cmd, idx|
+            printf "0x%04X: %032b\n", idx, cmd
+        end
+    end
+
+    def label(label_str)
+        if @collecting_labels
+            printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
+            @labels[label_str] = @pc
+        end
     end
 
 
@@ -105,9 +200,10 @@ class MicroAsm
 # ======================================================================
     private # <- запривачено
 
-    def translate_j(label_pc, pc)
+    def translate_j(label_pc)
         opcode = INSTRUCTION_SET["J"]
-        (opcode << 26) | (label_pc - (pc + 1)) # count jmp from the next pc after jmp (from label)
+        printf "JMP: label_pc %d, pc %d, offset %d\n", label_pc, @pc, (label_pc - @pc)
+        (opcode << 26) | (label_pc - @pc & 0x3FFFFFF) # count jmp from the next pc after jmp (from label)
     end
 
 
