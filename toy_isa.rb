@@ -17,7 +17,7 @@ class MicroAsm
         @commands = []
         @registers = {}
 
-        (1..31).each do |i|
+        (0..31).each do |i|
             reg_name = "r#{i}".to_sym
             self.define_singleton_method(reg_name) do
                 i
@@ -81,7 +81,13 @@ class MicroAsm
             return
         end
 
-        @commands[@pc] = translate_beq([rs, rt, offset])
+        if @labels[offset]
+            printf "BEQ WITH LABEL!!!\n"
+            @commands[@pc] = translate_beq([rs, rt, @labels[offset]])
+        else
+            printf "BEQ WITHOUT LABEL!!!\n"
+            @commands[@pc] = translate_beq([rs, rt, offset])
+        end
         @pc += 1
     end
 
