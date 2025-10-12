@@ -149,6 +149,7 @@ CMakeFiles/ToySim.dir/src/interpreter.cpp.o: \
  /usr/include/c++/15/bits/fstream.tcc /usr/include/c++/15/cstdint \
  /usr/lib/gcc/x86_64-redhat-linux/15/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/stdint-uintn.h \
- /usr/include/bits/stdint-least.h \
+ /usr/include/bits/stdint-least.h /usr/include/c++/15/bitset \
  /home/kirill/Side-Projects/ToySim/include/errors.hpp \
- /home/kirill/Side-Projects/ToySim/include/interpreter.hpp
+ /home/kirill/Side-Projects/ToySim/include/interpreter.hpp \
+ /home/kirill/Side-Projects/ToySim/include/commands.hpp

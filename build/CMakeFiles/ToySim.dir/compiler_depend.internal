@@ -3,6 +3,7 @@
 
 CMakeFiles/ToySim.dir/src/interpreter.cpp.o
  /home/kirill/Side-Projects/ToySim/src/interpreter.cpp
+ /home/kirill/Side-Projects/ToySim/include/commands.hpp
  /home/kirill/Side-Projects/ToySim/include/errors.hpp
  /home/kirill/Side-Projects/ToySim/include/interpreter.hpp
  /usr/include/alloca.h
@@ -147,6 +148,7 @@ CMakeFiles/ToySim.dir/src/interpreter.cpp.o
  /usr/include/c++/15/bits/utility.h
  /usr/include/c++/15/bits/vector.tcc
  /usr/include/c++/15/bits/version.h
+ /usr/include/c++/15/bitset
  /usr/include/c++/15/cctype
  /usr/include/c++/15/cerrno
  /usr/include/c++/15/clocale

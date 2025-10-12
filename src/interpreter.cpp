@@ -2,9 +2,11 @@
 #include <vector>
 #include <fstream>
 #include <cstdint>
+#include <bitset>
 
 #include "errors.hpp"
 #include "interpreter.hpp"
+#include "commands.hpp"
 
 const std::string filename = "../result.bin";
 const size_t COMMAND_SIZE = 4;
@@ -20,6 +22,13 @@ int main(void) {
 }
 
 // -------------------------------------------------------------------------------------------
+
+void init(std::vector<uint32_t> commands) {
+    struct SPU spu = {};
+    for (auto i = commands.begin(); i != commands.end(); i++) {
+
+    }
+}
 
 // returns an array of 32-bit commands
 enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& filename) {
