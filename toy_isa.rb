@@ -83,7 +83,7 @@ class MicroAsm
 
         if @labels[offset]
             printf "BEQ WITH LABEL!!!\n"
-            @commands[@pc] = translate_beq([rs, rt, @labels[offset]])
+            @commands[@pc] = translate_beq([rs, rt, (@labels[offset] - @pc) & 0xFFFF])
         else
             printf "BEQ WITHOUT LABEL!!!\n"
             @commands[@pc] = translate_beq([rs, rt, offset])
@@ -216,7 +216,7 @@ class MicroAsm
     def translate_j(label_pc)
         opcode = INSTRUCTION_SET["J"]
         printf "JMP: label_pc %d, pc %d, offset %d\n", label_pc, @pc, (label_pc - @pc)
-        (opcode << 26) | (label_pc - @pc & 0x3FFFFFF) # count jmp from the next pc after jmp (from label)
+        (opcode << 26) | ((label_pc - @pc) & 0x3FFFFFF) # count jmp from the next pc after jmp (from label)
     end
 
 

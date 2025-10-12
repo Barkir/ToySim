@@ -16,8 +16,8 @@ uint32_t getOpcode(const uint32_t command) {
 
     // std::cout << std::bitset<32>(swappedCommand) << "\n";
 
-    uint32_t opcode1 = swappedCommand & OPCODE_MASK;
-    uint32_t opcode2 = (swappedCommand >> OPCODE_OFFSET) & OPCODE_MASK;
+    uint32_t opcode1 = (swappedCommand >> OPCODE_OFFSET) & OPCODE_MASK;
+    uint32_t opcode2 = swappedCommand & OPCODE_MASK;
 
 
     // std::cout << std::bitset<32>(opcode1) << "\n";
@@ -27,9 +27,11 @@ uint32_t getOpcode(const uint32_t command) {
     auto it2 = OPCODE_MAP.find(opcode2);
 
     if (it1 != OPCODE_MAP.end()) {
+        std::cout << it1->second << "\t" << std::bitset<32>(swappedCommand) <<"\n";
         return it1->first;
     }
     else if (it2 != OPCODE_MAP.end()) {
+        std::cout << it2->second << "\t" << std::bitset<32>(swappedCommand) <<"\n";
         return it2->first;
     }
 

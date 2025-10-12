@@ -31,7 +31,7 @@ void init(std::vector<uint32_t> commands) {
         // hexDump(commands);
         uint32_t opcode = getOpcode(*i);
         auto it = OPCODE_MAP.find(opcode);
-        std::cout << it->second << "\n";
+        // std::cout << it->second << "\n";
     }
 }
 
