@@ -182,7 +182,7 @@ class MicroAsm
         end
 
         @commands.each_with_index do |cmd, idx|
-            printf "0x%04X: %08X\n", idx, cmd
+            printf "0x%04X: %08X %b\n", idx, cmd, cmd
         end
 
         puts "Writing to file result.bin..."

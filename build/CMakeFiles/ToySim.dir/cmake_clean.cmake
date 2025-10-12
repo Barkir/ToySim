@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ToySim.dir/link.d"
+  "CMakeFiles/ToySim.dir/src/commands.cpp.o"
+  "CMakeFiles/ToySim.dir/src/commands.cpp.o.d"
   "CMakeFiles/ToySim.dir/src/interpreter.cpp.o"
   "CMakeFiles/ToySim.dir/src/interpreter.cpp.o.d"
   "ToySim"

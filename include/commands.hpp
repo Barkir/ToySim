@@ -1,4 +1,10 @@
-// those are opcodes (soon...)
+#include <unordered_map>
+#include <cstdint>
+#include <string>
+
+const uint32_t OPCODE_MASK   = 0x1F;
+const uint32_t OPCODE_OFFSET = 27;
+
 enum toyCommands {
     TOY_JMP     =0b010111,
     TOY_CBIT    =0b111011,
@@ -16,6 +22,23 @@ enum toyCommands {
     TOY_SYSCALL =0b000111
 };
 
+static const std::unordered_map<uint32_t, std::string> OPCODE_MAP {
+    {TOY_JMP,       "JMP"       },
+    {TOY_CBIT,      "CBIT"      },
+    {TOY_SUBI,      "SUBI"      },
+    {TOY_MOVN,      "MOVN"      },
+    {TOY_BEQ,       "BEQ"       },
+    {TOY_BEXT,      "BEXT"      },
+    {TOY_LDP,       "LDP"       },
+    {TOY_ADD,       "ADD"       },
+    {TOY_LD,        "LD"        },
+    {TOY_CLS,       "CLS"       },
+    {TOY_RORI,      "RORI"      },
+    {TOY_ST,        "ST"        },
+    {TOY_XOR,       "XOR"       },
+    {TOY_SYSCALL,   "SYSCALL"   }
+};
+
 struct SPU {
 
     uint32_t pc;
@@ -29,6 +52,9 @@ struct commandHandler {
     enum toyCommands opcode;
     executeFunc func;
 };
+
+
+enum toyCommands getOpcode(const uint32_t command);
 
 
 

@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/kirill/Side-Projects/ToySim/src/commands.cpp" "CMakeFiles/ToySim.dir/src/commands.cpp.o" "gcc" "CMakeFiles/ToySim.dir/src/commands.cpp.o.d"
   "/home/kirill/Side-Projects/ToySim/src/interpreter.cpp" "CMakeFiles/ToySim.dir/src/interpreter.cpp.o" "gcc" "CMakeFiles/ToySim.dir/src/interpreter.cpp.o.d"
   "" "ToySim" "gcc" "CMakeFiles/ToySim.dir/link.d"
   )

@@ -19,6 +19,8 @@ int main(void) {
     }
 
     hexDump(commands);
+
+    init(commands);
 }
 
 // -------------------------------------------------------------------------------------------
@@ -26,7 +28,8 @@ int main(void) {
 void init(std::vector<uint32_t> commands) {
     struct SPU spu = {};
     for (auto i = commands.begin(); i != commands.end(); i++) {
-
+        hexDump(commands);
+        enum toyCommands opcode = getOpcode(*i);
     }
 }
 

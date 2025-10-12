@@ -129,6 +129,30 @@ ToySim/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ToySim.dir/build.make CMakeFiles/ToySim.dir/build
 .PHONY : ToySim/fast
 
+src/commands.o: src/commands.cpp.o
+.PHONY : src/commands.o
+
+# target to build an object file
+src/commands.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ToySim.dir/build.make CMakeFiles/ToySim.dir/src/commands.cpp.o
+.PHONY : src/commands.cpp.o
+
+src/commands.i: src/commands.cpp.i
+.PHONY : src/commands.i
+
+# target to preprocess a source file
+src/commands.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ToySim.dir/build.make CMakeFiles/ToySim.dir/src/commands.cpp.i
+.PHONY : src/commands.cpp.i
+
+src/commands.s: src/commands.cpp.s
+.PHONY : src/commands.s
+
+# target to generate assembly for a file
+src/commands.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ToySim.dir/build.make CMakeFiles/ToySim.dir/src/commands.cpp.s
+.PHONY : src/commands.cpp.s
+
 src/interpreter.o: src/interpreter.cpp.o
 .PHONY : src/interpreter.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ToySim"
+	@echo "... src/commands.o"
+	@echo "... src/commands.i"
+	@echo "... src/commands.s"
 	@echo "... src/interpreter.o"
 	@echo "... src/interpreter.i"
 	@echo "... src/interpreter.s"
