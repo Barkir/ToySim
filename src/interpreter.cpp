@@ -15,6 +15,8 @@ int main(void) {
     if (get_commands(&commands, filename)) {
         return TOY_FAILED;
     }
+
+    hexDump(commands);
 }
 
 // -------------------------------------------------------------------------------------------
@@ -39,6 +41,13 @@ enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& 
         std::vector<char> buffer(fSize);
         file.read(buffer.data(), fSize);
         hexDump(buffer);
+
+        *commands = std::vector<uint32_t>(
+        reinterpret_cast<const uint32_t*>(buffer.data()),
+        reinterpret_cast<const uint32_t*>(buffer.data()) + fSize / COMMAND_SIZE
+        );
+
+        return TOY_SUCCESS;
     }
     return TOY_FAILED;
 }
@@ -55,20 +64,28 @@ size_t getFileSize(std::ifstream& file) {
     return size;
 }
 
-void hexDump(std::vector<char> buffer) {
-    fprintf(stdout, RED "===========sup=============\n" RESET);
-    fprintf(stdout, GREEN "▁▂▃▄▅▆▇▉ (.) (.) ▉▇▆▅▄▃▂▁\n" RESET);
+template<typename T>
+void hexDump(const std::vector<T>& buffer) {
+    fprintf(stdout, RED "╔═══════════════════════════════════╗\n" RESET);
+    fprintf(stdout, RED "║" GREEN "  ▁▂▃▄▅▆▇▉ HEX DUMP ▉▇▆▅▄▃▂▁  " RED "║\n" RESET);
+    fprintf(stdout, RED "╚═══════════════════════════════════╝\n" RESET);
+
+    const unsigned char* rawData = reinterpret_cast<const unsigned char*>(buffer.data());
+    size_t totalBytes = buffer.size() * sizeof(T);
+
     int cnt = 0;
-    for (char& c: buffer) {
+    for (size_t i = 0; i < totalBytes; i++) {
         if (cnt % 4 == 0) {
-            fprintf(stdout, CYAN "\n 0x%-2X ->" RESET, cnt / 4);
+            fprintf(stdout, CYAN "\n  0x%02X → " RESET, cnt / 4);
         }
-        fprintf(stdout, "%4X", c);
+        fprintf(stdout, MAGENTA "%02X " RESET, rawData[i]);
         cnt++;
     }
-    fprintf(stdout, RED "\n\n===========bye=============\n" RESET);
-}
 
+    fprintf(stdout, YELLOW "\n\n╔═══════════════════════════════════╗\n" RESET);
+    fprintf(stdout, YELLOW "║" BLUE "    Items: %3zu | Bytes: %3zu    " YELLOW "║\n" RESET, buffer.size(), totalBytes);
+    fprintf(stdout, YELLOW "╚═══════════════════════════════════╝\n" RESET);
+}
 
 
 
