@@ -4,6 +4,7 @@
 CMakeFiles/ToySim.dir/src/commands.cpp.o
  /home/kirill/Side-Projects/ToySim/src/commands.cpp
  /home/kirill/Side-Projects/ToySim/include/commands.hpp
+ /home/kirill/Side-Projects/ToySim/include/errors.hpp
  /usr/include/alloca.h
  /usr/include/asm-generic/bitsperlong.h
  /usr/include/asm-generic/errno-base.h

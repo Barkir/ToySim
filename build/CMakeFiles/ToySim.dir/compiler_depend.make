@@ -3,6 +3,7 @@
 
 CMakeFiles/ToySim.dir/src/commands.cpp.o: /home/kirill/Side-Projects/ToySim/src/commands.cpp \
   /home/kirill/Side-Projects/ToySim/include/commands.hpp \
+  /home/kirill/Side-Projects/ToySim/include/errors.hpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -509,8 +510,6 @@ CMakeFiles/ToySim.dir/src/interpreter.cpp.o:
 
 /usr/include/c++/15/bits/codecvt.h:
 
-/home/kirill/Side-Projects/ToySim/include/errors.hpp:
-
 /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h:
 
 /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h:
@@ -645,8 +644,6 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 
 /usr/include/c++/15/bits/std_abs.h:
 
-/usr/include/asm/types.h:
-
 /usr/include/c++/15/bits/streambuf.tcc:
 
 /usr/include/bits/types/clockid_t.h:
@@ -691,9 +688,9 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 
 /usr/include/bits/stdint-uintn.h:
 
-/usr/include/bits/types/cookie_io_functions_t.h:
-
 /usr/include/bits/sched.h:
+
+/usr/include/bits/types/cookie_io_functions_t.h:
 
 /usr/include/bits/types/struct___jmp_buf_tag.h:
 
@@ -707,6 +704,16 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 
 /usr/include/c++/15/bits/ranges_util.h:
 
+/lib64/libmvec.so.1:
+
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/asm-generic/errno-base.h:
+
 /usr/include/asm/posix_types_64.h:
 
 /usr/include/c++/15/x86_64-redhat-linux/bits/ctype_inline.h:
@@ -719,20 +726,6 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 
 /usr/include/bits/time.h:
 
-/usr/include/wchar.h:
-
-/usr/include/c++/15/bits/ios_base.h:
-
-/lib64/libmvec.so.1:
-
-/usr/include/bits/pthreadtypes.h:
-
-/usr/include/asm-generic/errno.h:
-
-/usr/include/asm-generic/types.h:
-
-/usr/include/asm-generic/errno-base.h:
-
 /usr/include/bits/types/__fpos_t.h:
 
 /usr/include/bits/types/clock_t.h:
@@ -743,6 +736,8 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 
 /usr/include/alloca.h:
 
+/usr/include/asm/types.h:
+
 /usr/include/bits/types/__sigset_t.h:
 
 /usr/include/stdc-predef.h:
@@ -750,6 +745,12 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 /usr/include/asm-generic/posix_types.h:
 
 /usr/include/c++/15/bits/allocator.h:
+
+/usr/include/wchar.h:
+
+/usr/include/c++/15/bits/ios_base.h:
+
+/home/kirill/Side-Projects/ToySim/include/errors.hpp:
 
 /usr/include/c++/15/bits/streambuf_iterator.h:
 

@@ -5,6 +5,11 @@
 const uint32_t OPCODE_MASK   = 0x3F;
 const uint32_t OPCODE_OFFSET = 26;
 
+const uint32_t FIRST_ARG_OFFSET  = 21;
+const uint32_t SECOND_ARG_OFFSET = 16;
+const uint32_t THIRD_ARG_OFFSET  = 11;
+const uint32_t REG_MASK = 0x1F;
+
 enum toyCommands {
     TOY_JMP     =0b010111,
     TOY_CBIT    =0b111011,
@@ -58,6 +63,12 @@ struct commandHandler {
 
 uint32_t getOpcode(const uint32_t command);
 uint32_t swapEndian(uint32_t value);
+
+
+void spuDump(SPU& spu);
+void callADD(SPU& spu, uint32_t command);
+void callXOR(SPU& spu, uint32_t command);
+void callMOVN(SPU& spu, uint32_t command);
 
 
 

@@ -18,7 +18,7 @@ asm.prog do
 #-------------------------------------------------------------------------------
 
     add r1, r2, r8                 # r1 = r1 + r8 (incrementing r1)
-    # jmp :prog_start                # jumping to the start of the program
+    jmp :prog_start                # jumping to the start of the program
     label :prog_end
 
     add r8, r8, r8                  # syscall 2 - print number from r1
