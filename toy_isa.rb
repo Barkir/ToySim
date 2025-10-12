@@ -111,7 +111,7 @@ class MicroAsm
             return
         end
 
-        @commands[@pc] = tranlsate_add([rd, rs, rt])
+        @commands[@pc] = translate_add([rd, rs, rt])
         @pc += 1
     end
 
@@ -261,7 +261,7 @@ class MicroAsm
         offset, base = extract_adr(operands[2])
         opcode = INSTRUCTION_SET["LDP"]
 
-        (0 << opcode) | (base << 21) | (rt1 << 16) | (rt2 << 11) | offset
+        (opcode << 26) | (base << 21) | (rt1 << 16) | (rt2 << 11) | offset
 
         # not checked !!! the lowest two bits of #offset field must be zero. else is UB.
     end

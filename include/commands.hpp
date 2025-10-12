@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <string>
 
-const uint32_t OPCODE_MASK   = 0x1F;
-const uint32_t OPCODE_OFFSET = 27;
+const uint32_t OPCODE_MASK   = 0x3F;
+const uint32_t OPCODE_OFFSET = 26;
 
 enum toyCommands {
     TOY_JMP     =0b010111,
@@ -19,7 +19,9 @@ enum toyCommands {
     TOY_RORI    =0b111111,
     TOY_ST      =0b111010,
     TOY_XOR     =0b011011,
-    TOY_SYSCALL =0b000111
+    TOY_SYSCALL =0b000111,
+
+    TOY_WRONG_OPCODE=-1
 };
 
 static const std::unordered_map<uint32_t, std::string> OPCODE_MAP {
@@ -54,7 +56,8 @@ struct commandHandler {
 };
 
 
-enum toyCommands getOpcode(const uint32_t command);
+uint32_t getOpcode(const uint32_t command);
+uint32_t swapEndian(uint32_t value);
 
 
 

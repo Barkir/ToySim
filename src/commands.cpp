@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <iostream>
+#include <bitset>
 
 #include "commands.hpp"
 
@@ -7,17 +8,30 @@ uint32_t swapEndian(uint32_t value) {
     return __builtin_bswap32(value);
 }
 
-enum toyCommands getOpcode(const uint32_t command) {
+uint32_t getOpcode(const uint32_t command) {
 
-    uint32_t swapped = swapEndian(command);
+    // uint32 contains data in little-endian, i need to read these bytes
+    // in big-endian
+    uint32_t swappedCommand = swapEndian(command);
 
-    fprintf(stdout, "%x %b %b\n", swapped, swapped, swapped >> 27);
-    uint32_t opcode1 = swapped & OPCODE_MASK;
-    uint32_t opcode2 = (swapped >> OPCODE_OFFSET) & OPCODE_MASK;
+    // std::cout << std::bitset<32>(swappedCommand) << "\n";
 
-    fprintf(stdout, "OPCODE1: %b\nOPCODE2: %b\n", opcode1, opcode2);
-    auto it = OPCODE_MAP.find(opcode1);
-    if (it != OPCODE_MAP.end())
-        std::cout << it->second << "\n";
-    return TOY_JMP;
+    uint32_t opcode1 = swappedCommand & OPCODE_MASK;
+    uint32_t opcode2 = (swappedCommand >> OPCODE_OFFSET) & OPCODE_MASK;
+
+
+    // std::cout << std::bitset<32>(opcode1) << "\n";
+    // std::cout << std::bitset<32>(opcode2) << "\n";
+
+    auto it1 = OPCODE_MAP.find(opcode1);
+    auto it2 = OPCODE_MAP.find(opcode2);
+
+    if (it1 != OPCODE_MAP.end()) {
+        return it1->first;
+    }
+    else if (it2 != OPCODE_MAP.end()) {
+        return it2->first;
+    }
+
+    return TOY_WRONG_OPCODE;
 }

@@ -145,6 +145,7 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o: /home/kirill/Side-Projects/ToySim/src/
   /usr/include/c++/15/bits/uses_allocator_args.h \
   /usr/include/c++/15/bits/utility.h \
   /usr/include/c++/15/bits/version.h \
+  /usr/include/c++/15/bitset \
   /usr/include/c++/15/cctype \
   /usr/include/c++/15/cerrno \
   /usr/include/c++/15/clocale \
@@ -604,9 +605,9 @@ CMakeFiles/ToySim.dir/src/commands.cpp.o:
 
 /usr/include/c++/15/compare:
 
-/usr/include/c++/15/bitset:
-
 /usr/include/c++/15/cerrno:
+
+/usr/include/c++/15/bitset:
 
 /home/kirill/Side-Projects/ToySim/src/interpreter.cpp:
 
