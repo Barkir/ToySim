@@ -238,7 +238,7 @@ class MicroAsm
         rt, rs, imm = operands
         opcode = INSTRUCTION_SET["SUBI"]
 
-        (opcode << 26) | (rs << 21) | (rt << 21) | imm
+        (opcode << 26) | (rs << 21) | (rt << 16) | imm
     end
 
     def translate_movn(operands)
@@ -252,7 +252,7 @@ class MicroAsm
         rs, rt, offset = operands
         opcode = INSTRUCTION_SET["BEQ"]
 
-        (opcode << 26) | (rs << 21) | (rt << 21) | offset
+        (opcode << 26) | (rs << 21) | (rt << 16) | offset
     end
 
     def translate_bext(operands)

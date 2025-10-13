@@ -27,12 +27,17 @@ int main(void) {
 
 void init(std::vector<uint32_t> commands) {
     struct SPU spu = {};
-    for (auto command = commands.begin(); command != commands.end(); command++) {
+
+
+    while (spu.pc < commands.size()) {
+        auto command = commands[spu.pc];
+
+    // for (auto command = commands.begin(); command != commands.end(); command++) {
         // hexDump(commands);
 
         // uint32 contains data in little-endian, i need to read these bytes
         // in big-endian
-        uint32_t swappedCommand = swapEndian(*command);
+        uint32_t swappedCommand = swapEndian(command);
 
         uint32_t opcode = getOpcode(swappedCommand);
         auto it = OPCODE_MAP.find(opcode);
@@ -46,9 +51,31 @@ void init(std::vector<uint32_t> commands) {
                 callMOVN(spu, swappedCommand);
                 spuDump(spu);
                 break;
+
             case TOY_ADD:
                 callADD(spu, swappedCommand);
                 spuDump(spu);
+                break;
+
+            case TOY_SUBI:
+                callSUBI(spu, swappedCommand);
+                spuDump(spu);
+                break;
+
+            case TOY_JMP:
+                callJMP(spu, swappedCommand);
+                spuDump(spu);
+                break;
+
+            case TOY_BEQ:
+                callBEQ(spu, swappedCommand);
+                spuDump(spu);
+                break;
+
+            case TOY_SYSCALL:
+                callSYSCALL(spu, swappedCommand);
+                spuDump(spu);
+                break;
         }
         // std::cout << it->second << "\n";
     }

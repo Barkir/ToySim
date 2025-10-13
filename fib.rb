@@ -3,7 +3,9 @@ require_relative "toy_isa"
 asm = MicroAsm.new
 
 asm.prog do
-    xor r8, r2, r3 # they're all null at the start, so r8 is 1
+    subi r8, r8, 1
+    subi r9, r9, 2
+    xor r8, r8, r9
     syscall        # making a syscall 1 where we put number to r0
 
     movn r2, r8, r8
@@ -15,9 +17,8 @@ asm.prog do
     movn r4, r2, r8                # r2 -> r4     (saving its' value)
     add r2, r2, r3                 # r2 = r2 + r3 (getting next fib)
     movn r3, r4, r8                # r4 -> r3     (saving prev fib to r3)
-#-------------------------------------------------------------------------------
 
-    add r1, r2, r8                 # r1 = r1 + r8 (incrementing r1)
+    add r1, r1, r8                 # r1 = r1 + r8 (incrementing r1)
     jmp :prog_start                # jumping to the start of the program
     label :prog_end
 

@@ -42,11 +42,11 @@ void spuDump(SPU& spu) {
     fprintf(stdout, YELLOW "---------------------------------\n" RESET, spu.pc);
     fprintf(stdout, YELLOW "\tPC = %d\n" RESET, spu.pc);
     fprintf(stdout, BLUE "╔═══════════════════════════════╗\n║ " RESET);
-    for (int i = 0; i < sizeof(spu.regs) / sizeof(uint32_t); i++) {
+    for (int i = 0; i < 32; i++) {
         if (i % 4 == 0 && i != 0) {
             fprintf(stdout, BLUE "║\n║ " RESET);
         }
-        if (spu.regs[i])
+        if (spu.regs[i] != 0)
             fprintf(stdout, GREEN "%-5d\t" RESET, spu.regs[i]);
         else
             fprintf(stdout, RED "%-5d\t" RESET, spu.regs[i]);
@@ -87,4 +87,46 @@ void callADD(SPU& spu, uint32_t command) {
 
     spu.regs[rd] = spu.regs[rs] + spu.regs[rt];
     spu.pc++;
+}
+
+void callSYSCALL(SPU& spu, uint32_t command) {
+    switch (spu.regs[TOY_R8]) {
+        case TOY_PRINT:
+            std::cout << spu.regs[TOY_R1] << "\n";
+            break;
+
+        case TOY_INPUT:
+            int value = 0;
+            std::cin >> value;
+            spu.regs[TOY_R0] = value;
+            break;
+    }
+    spu.pc++;
+}
+
+void callSUBI(SPU& spu, uint32_t command) {
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
+    uint32_t rt = (command >> SECOND_ARG_OFFSET) & REG_MASK; fprintf(stdout, "rt = %d; ", rt);
+    int32_t imm = command & IMM_OFFSET;                   fprintf(stdout, "imm = %d\n" RESET, imm);
+
+    spu.regs[rt] = spu.regs[rs] - imm;
+    spu.pc++;
+}
+
+void callJMP(SPU& spu, uint32_t command) {
+    int16_t offset = command & JMP_OFFSET; fprintf(stdout, GREEN "\t offset = %d\n" RESET, offset);
+    spu.pc = spu.pc + offset;
+}
+
+void callBEQ(SPU& spu, uint32_t command) {
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
+    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; fprintf(stdout, "rt = %d; ",         rt);
+
+    int32_t offset = command & BEQ_OFFSET;                 fprintf(stdout, "offset = %d\n" RESET, offset);
+
+    if (spu.regs[rs] == spu.regs[rt]) {
+        spu.pc += offset;
+    } else {
+        spu.pc++;
+    }
 }
