@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/ToySim.dir/link.d CMakeFiles/ToySim.dir/src/interpreter.cpp.o CMakeFiles/ToySim.dir/src/commands.cpp.o -o ToySim

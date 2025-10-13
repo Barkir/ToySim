@@ -1,3 +1,0 @@
-/home/kirill/Side-Projects/ToySim/build/CMakeFiles/ToySim.dir
-/home/kirill/Side-Projects/ToySim/build/CMakeFiles/edit_cache.dir
-/home/kirill/Side-Projects/ToySim/build/CMakeFiles/rebuild_cache.dir
