@@ -1,6 +1,31 @@
 # TOY ISA (interpreter)
 ![alt text](readme/image.png)
 
+#### HOW TO USE (clone (🤡) these commands)
+
+```
+git clone https://github.com/Barkir/ToySim
+```
+```
+cd ToySim
+```
+
+_make sure you're in root dir of this repo_
+
+```
+chmod +x ./get_ready.sh
+./get_ready.sh
+```
+
+### ⚠️⚠️⚠️ WARNING
+- Before writing the code on microassembler - **plz** install only 1 variable. Here's the instruction.
+1. `cd build`
+2. `pwd` and copy it
+3. Go to constants.rb
+4. Find `TOY_SIM` constant and clear it
+5. Insert the path of `ToySim` that you copied
+
+
 
 ## MicroAssembler
 I use [ruby](https://www.ruby-lang.org/en/) for writing microassembler.
@@ -23,29 +48,30 @@ Those are equal! So `movn` is just a method of the class called `MicroAsm` which
 
 #### Commands
 
-| Command | Notes     |
-|---------|-----------|
-| movn    |           |
-| add     |           |
-| subi    |           |
-| jmp     |           |
-| cbit    |           |
-| beq     |           |
-| bext    |           |
-| ldp     |           |
-| ld      |           |
-| cls     |           |
-| rori    |           |
-| st      |           |
-| xor     |           |
-| syscall | r8 - system call number, r0-r7 - args, r0-result            |
+| Command | Notes     | made it (both in asm and interpreter) |
+|---------|-----------|---------|
+| movn rd, rs, rt    | if (rt) then rd = rs           | ☑️        |
+| add rd, rs, rt     | rd = rs + rt          | ☑️         |
+| subi rt, rs, imm   | rd = rs - imm          | ☑️        |
+| jmp t    | pc = pc + t           | ☑️        |
+| cbit    |           |         |
+| beq rs, rt, offset     | if (rs == rt) pc = pc + offset          | ☑️        |
+| bext    |           |         |
+| ldp     |           |         |
+| ld      |           |         |
+| cls     |           |         |
+| rori    |           |         |
+| st      |           |         |
+| xor     |           | ☑️        |
+| syscall | r8 - system call number, r0-r7 - args, r0-result            |☑️  |
 
 #### Ruby features
 1. A class has default methods.
     - `initialize` - a method which initializes some sh...
     - `method_missing` - handles the situation when some method is missed in a class
 
-This is a usecase for `method_missing`
+
+**This is a usecase for `method_missing`**
 
 I got `st` instruction in microassembler
 
@@ -91,3 +117,5 @@ number 3 as the first one and 0,1 as the second one
 
 
 It mathes our case and we return a dictionary where we contain our object and the **name** of this _fictional_ method as a string.
+
+## Interpreter

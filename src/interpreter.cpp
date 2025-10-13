@@ -11,16 +11,19 @@
 const std::string filename = "../result.bin";
 const size_t COMMAND_SIZE = 4;
 
-int main(void) {
+int main(int argc, char* argv[]) {
 
-    std::vector<uint32_t> commands;
-    if (get_commands(&commands, filename)) {
-        return TOY_FAILED;
+    if (argc >= 2)
+    {
+        std::string filename = argv[1]; // not a magic number :)
+        std::vector<uint32_t> commands;
+        if (get_commands(&commands, filename)) {
+            return TOY_FAILED;
+        }
+
+        ON_DEBUG(hexDump(commands));
+        init(commands);
     }
-
-    hexDump(commands);
-
-    init(commands);
 }
 
 // -------------------------------------------------------------------------------------------
@@ -32,11 +35,6 @@ void init(std::vector<uint32_t> commands) {
     while (spu.pc < commands.size()) {
         auto command = commands[spu.pc];
 
-    // for (auto command = commands.begin(); command != commands.end(); command++) {
-        // hexDump(commands);
-
-        // uint32 contains data in little-endian, i need to read these bytes
-        // in big-endian
         uint32_t swappedCommand = swapEndian(command);
 
         uint32_t opcode = getOpcode(swappedCommand);
@@ -45,39 +43,38 @@ void init(std::vector<uint32_t> commands) {
         switch (it->first) {
             case TOY_XOR:
                 callXOR(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
             case TOY_MOVN:
                 callMOVN(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_ADD:
                 callADD(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_SUBI:
                 callSUBI(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_JMP:
                 callJMP(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_BEQ:
                 callBEQ(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_SYSCALL:
                 callSYSCALL(spu, swappedCommand);
-                spuDump(spu);
+                ON_DEBUG(spuDump(spu));
                 break;
         }
-        // std::cout << it->second << "\n";
     }
 }
 
@@ -100,7 +97,7 @@ enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& 
     if (file.is_open()) {
         std::vector<char> buffer(fSize);
         file.read(buffer.data(), fSize);
-        hexDump(buffer);
+        ON_DEBUG(hexDump(buffer));
 
         *commands = std::vector<uint32_t>(
         reinterpret_cast<const uint32_t*>(buffer.data()),

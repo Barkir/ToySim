@@ -82,10 +82,10 @@ class MicroAsm
         end
 
         if @labels[offset]
-            printf "BEQ WITH LABEL!!!\n"
+            # printf "BEQ WITH LABEL!!!\n"
             @commands[@pc] = translate_beq([rs, rt, (@labels[offset] - @pc) & 0xFFFF])
         else
-            printf "BEQ WITHOUT LABEL!!!\n"
+            # printf "BEQ WITHOUT LABEL!!!\n"
             @commands[@pc] = translate_beq([rs, rt, offset])
         end
         @pc += 1
@@ -188,20 +188,24 @@ class MicroAsm
         end
 
         @commands.each_with_index do |cmd, idx|
-            printf "0x%04X: %08X %b\n", idx, cmd, cmd
+            # printf "0x%04X: %08X %b\n", idx, cmd, cmd
         end
 
-        puts "Writing to file result.bin..."
+        # printf "Writing to file result.bin...\n"
         File.open("result.bin", "wb") do |file|
             @commands.each do |elem|
                 file.write([elem].pack("N"))
             end
+            absolute_path = File.expand_path("result.bin")
+            file.close()
+            system(TOY_SIM + "ToySim " + absolute_path)
+
         end
     end
 
     def label(label_str)
         if @collecting_labels
-            printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
+            # printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
             @labels[label_str] = @pc
         end
     end
@@ -215,7 +219,7 @@ class MicroAsm
 
     def translate_j(label_pc)
         opcode = INSTRUCTION_SET["J"]
-        printf "JMP: label_pc %d, pc %d, offset %d\n", label_pc, @pc, (label_pc - @pc)
+        # printf "JMP: label_pc %d, pc %d, offset %d\n", label_pc, @pc, (label_pc - @pc)
         (opcode << 26) | ((label_pc - @pc) & 0x3FFFFFF) # count jmp from the next pc after jmp (from label)
     end
 

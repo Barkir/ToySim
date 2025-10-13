@@ -3,6 +3,12 @@
 #include <string>
 
 
+#ifdef DEBUG
+#define ON_DEBUG(code) code
+#else
+#define ON_DEBUG(code)
+#endif
+
 enum commandHelpers {
     OPCODE_MASK         = 0x3F,
     REG_MASK            = 0x1F,
@@ -111,6 +117,8 @@ uint32_t swapEndian(uint32_t value);
 
 
 void spuDump(SPU& spu);
+void commandDump(std::string commandName, uint32_t command);
+
 void callADD(SPU& spu, uint32_t command);
 void callXOR(SPU& spu, uint32_t command);
 void callMOVN(SPU& spu, uint32_t command);

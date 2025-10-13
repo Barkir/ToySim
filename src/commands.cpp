@@ -27,15 +27,19 @@ uint32_t getOpcode(const uint32_t command) {
     auto it2 = OPCODE_MAP.find(opcode2);
 
     if (it1 != OPCODE_MAP.end()) {
-        std::cout << CYAN << it1->second << RESET << "\t" << std::bitset<32>(command) <<"\n";
+        ON_DEBUG(commandDump(it1->second, command));
         return it1->first;
     }
     else if (it2 != OPCODE_MAP.end()) {
-        std::cout << MAGENTA << it2->second << RESET << "\t" << std::bitset<32>(command) <<"\n";
+        ON_DEBUG(commandDump(it2->second, command));
         return it2->first;
     }
 
     return TOY_WRONG_OPCODE;
+}
+
+void commandDump(std::string commandName, uint32_t command) {
+    std::cout << CYAN << commandName << RESET << "\t" << std::bitset<32>(command) <<"\n";
 }
 
 void spuDump(SPU& spu) {
@@ -58,9 +62,9 @@ void spuDump(SPU& spu) {
 
 void callXOR(SPU& spu, uint32_t command) {
 
-    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
-    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; fprintf(stdout, "rt = %d; ",         rt);
-    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; fprintf(stdout, "rd = %d\n" RESET ,  rd);
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
+    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, "rd = %d\n" RESET ,  rd));
 
     spu.regs[rd] = spu.regs[rs] ^ spu.regs[rt];
     spu.pc++;
@@ -68,9 +72,9 @@ void callXOR(SPU& spu, uint32_t command) {
 
 void callMOVN(SPU& spu, uint32_t command) {
 
-    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
-    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; fprintf(stdout, "rt = %d; ",         rt);
-    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; fprintf(stdout, "rd = %d\n" RESET ,  rd);
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
+    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, "rd = %d\n" RESET ,  rd));
 
     if (spu.regs[rt] != 0) {
         spu.regs[rd] = spu.regs[rs];
@@ -81,9 +85,9 @@ void callMOVN(SPU& spu, uint32_t command) {
 
 void callADD(SPU& spu, uint32_t command) {
 
-    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
-    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; fprintf(stdout, "rt = %d; ",         rt);
-    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; fprintf(stdout, "rd = %d\n" RESET ,  rd);
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
+    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, "rd = %d\n" RESET ,  rd));
 
     spu.regs[rd] = spu.regs[rs] + spu.regs[rt];
     spu.pc++;
@@ -105,24 +109,23 @@ void callSYSCALL(SPU& spu, uint32_t command) {
 }
 
 void callSUBI(SPU& spu, uint32_t command) {
-    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
-    uint32_t rt = (command >> SECOND_ARG_OFFSET) & REG_MASK; fprintf(stdout, "rt = %d; ", rt);
-    int32_t imm = command & IMM_OFFSET;                   fprintf(stdout, "imm = %d\n" RESET, imm);
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK;   ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+    uint32_t rt = (command >> SECOND_ARG_OFFSET) & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
+    int32_t imm = command & IMM_OFFSET;                      ON_DEBUG(fprintf(stdout, "imm = %d\n" RESET, imm));
 
     spu.regs[rt] = spu.regs[rs] - imm;
     spu.pc++;
 }
 
 void callJMP(SPU& spu, uint32_t command) {
-    int16_t offset = command & JMP_OFFSET; fprintf(stdout, GREEN "\t offset = %d\n" RESET, offset);
+    int16_t offset = command & JMP_OFFSET; ON_DEBUG(fprintf(stdout, GREEN "\t offset = %d\n" RESET, offset));
     spu.pc = spu.pc + offset;
 }
 
 void callBEQ(SPU& spu, uint32_t command) {
-    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; fprintf(stdout, GREEN "\t rs = %d; ", rs);
-    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; fprintf(stdout, "rt = %d; ",         rt);
-
-    int32_t offset = command & BEQ_OFFSET;                 fprintf(stdout, "offset = %d\n" RESET, offset);
+    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
+    int32_t offset = command & BEQ_OFFSET;                 ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 
     if (spu.regs[rs] == spu.regs[rt]) {
         spu.pc += offset;

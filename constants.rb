@@ -1,4 +1,8 @@
 module Constants
+    TOY_SIM = "/home/kirill/Side-Projects/ToySim/build/"
+
+
+
     INSTRUCTION_SET = { # constant value written in CAPITAL LETTERS (this is a hash table)
         'J'    => 0b010111,
         'CBIT' => 0b111011,
@@ -36,4 +40,5 @@ module Constants
     # for all numbers from 0 to 15 we create an array [R{i}, i].
     # then we turn it to hash_table with .to_h and then we make it constant by .freeze
     REGISTERS = (0..31).map {|i| ["R#{i}", i]}.to_h.freeze
+
 end
