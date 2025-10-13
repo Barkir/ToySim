@@ -23,22 +23,22 @@ Those are equal! So `movn` is just a method of the class called `MicroAsm` which
 
 #### Commands
 
-| Command | Notes     | made it |
-|---------|-----------|---------|
-| movn rd, rs, rt    | if (rt) then rd = rs           | ☑️        |
-| add rd, rs, rt     | rd = rs + rt          | ☑️         |
-| subi rt, rs, imm   | rd = rs - imm          | ☑️        |
-| jmp t    | pc = pc + t           | ☑️        |
-| cbit    |           |         |
-| beq rs, rt, offset     | if (rs == rt) pc = pc + offset          | ☑️        |
-| bext    |           |         |
-| ldp     |           |         |
-| ld      |           |         |
-| cls     |           |         |
-| rori    |           |         |
-| st      |           |         |
-| xor     |           | ☑️        |
-| syscall | r8 - system call number, r0-r7 - args, r0-result            |☑️  |
+| Command | Notes     |
+|---------|-----------|
+| movn    |           |
+| add     |           |
+| subi    |           |
+| jmp     |           |
+| cbit    |           |
+| beq     |           |
+| bext    |           |
+| ldp     |           |
+| ld      |           |
+| cls     |           |
+| rori    |           |
+| st      |           |
+| xor     |           |
+| syscall | r8 - system call number, r0-r7 - args, r0-result            |
 
 #### Ruby features
 1. A class has default methods.
