@@ -36,8 +36,9 @@ void init(std::vector<uint32_t> commands) {
         auto command = commands[spu.pc];
 
         uint32_t swappedCommand = swapEndian(command);
+        Instruction commandObj(swappedCommand);
 
-        uint32_t opcode = getOpcode(swappedCommand);
+        uint32_t opcode = commandObj.getOpcode();
         auto it = OPCODE_MAP.find(opcode);
 
         switch (it->first) {

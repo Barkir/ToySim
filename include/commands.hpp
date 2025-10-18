@@ -109,34 +109,6 @@ struct SPU {
     char memory[DEFAULT_MEMORY_SIZE]; // class for memory
 };
 
-using executeFunc = void(*)(SPU&, enum toyCommands);
-
-// structure to create a structure array with all the execute functions.
-struct commandHandler {
-    enum toyCommands opcode;
-    executeFunc func;
-};
-
-
-uint32_t getOpcode(const uint32_t command);
-uint32_t swapEndian(uint32_t value);
-
-
-void spuDump(SPU& spu);
-void commandDump(std::string commandName, uint32_t command);
-
-void callADD(SPU& spu, uint32_t command);
-void callXOR(SPU& spu, uint32_t command);
-void callMOVN(SPU& spu, uint32_t command);
-void callSYSCALL(SPU& spu, uint32_t command);
-void callSUBI(SPU& spu, uint32_t command);
-void callJMP(SPU& spu, uint32_t command);
-void callBEQ(SPU& spu, uint32_t command);
-void callLD(SPU& spu, uint32_t command);
-void callLDP(SPU& spu, uint32_t command);
-void callBEXT(SPU& spu, uint32_t command);
-void callCBIT(SPU& spu, uint32_t command);
-
 class Instruction {
     private:
         uint32_t command;
@@ -163,21 +135,46 @@ class Instruction {
     public: // get functions
         uint32_t getFirstReg()    {
             firstReg = command >> FIRST_ARG_OFFSET  & REG_MASK;
-            ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
             return firstReg;
         }
 
         uint32_t getSecondReg() {
             secondReg = command >> SECOND_ARG_OFFSET  & REG_MASK;
-            ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
             return secondReg;
         }
 
         uint32_t getThirdReg() {
             thirdReg = command >> THIRD_ARG_OFFSET  & REG_MASK;
-            ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
             return thirdReg;
         }
+
+        int32_t getImm() {
+            imm = command & IMM_OFFSET;
+            return imm;
+        }
+
+        int32_t getJmpOffset() {
+            offset = command & JMP_OFFSET;
+            return offset;
+        }
+
+        int32_t getBeqOffset() {
+            offset = command & BEQ_OFFSET;
+            return offset;
+        }
+
+        int32_t getLdpOffset() {
+            offset = command & LDP_OFFSET;
+            return offset;
+        }
+
+        int32_t getLdOffset() {
+            offset = command & LD_OFFSET;
+            return offset;
+        }
+
+
+
 
 
         uint32_t rsGet()    {return rs;}
@@ -193,4 +190,33 @@ class Instruction {
         uint32_t rs2Get()   {return rs2;}
 
 
+    public: // special functions
+        uint32_t getOpcode();
 };
+
+using executeFunc = void(*)(SPU&, enum toyCommands);
+
+// structure to create a structure array with all the execute functions.
+struct commandHandler {
+    enum toyCommands opcode;
+    executeFunc func;
+};
+
+uint32_t swapEndian(uint32_t value);
+
+
+void spuDump(SPU& spu);
+void commandDump(std::string commandName, uint32_t command);
+
+void callADD    (SPU& spu,      Instruction command);
+void callXOR    (SPU& spu,      Instruction command);
+void callMOVN   (SPU& spu,      Instruction command);
+void callSYSCALL(SPU& spu,      Instruction command);
+void callSUBI   (SPU& spu,      Instruction command);
+void callJMP    (SPU& spu,      Instruction command);
+void callBEQ    (SPU& spu,      Instruction command);
+void callLD     (SPU& spu,      Instruction command);
+void callLDP    (SPU& spu,      Instruction command);
+void callBEXT   (SPU& spu,      Instruction command);
+void callCBIT   (SPU& spu,      Instruction command);
+
