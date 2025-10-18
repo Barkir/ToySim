@@ -62,12 +62,17 @@ void spuDump(SPU& spu) {
 
 void callXOR(SPU& spu, uint32_t command) {
 
-    uint32_t rs = command >> FIRST_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
-    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
-    uint32_t rd = command >> THIRD_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, "rd = %d\n" RESET ,  rd));
+    // class for instruction
+    Instruction instr(command);
+    uint32_t rs = instr.getFirstReg();
+    uint32_t rt = instr.getSecondReg();
+    uint32_t rd = instr.getThirdReg();
 
     spu.regs[rd] = spu.regs[rs] ^ spu.regs[rt];
-    spu.pc++;
+    spu.pc++; // 1-byte addressing
+
+    // handle pc incrementing
+    // pc, next_pc
 }
 
 void callMOVN(SPU& spu, uint32_t command) {
@@ -127,9 +132,61 @@ void callBEQ(SPU& spu, uint32_t command) {
     uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
     int32_t offset = command & BEQ_OFFSET;                 ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 
+    //0x0000ffff <- signextension
+    //0xffffffff
+
     if (spu.regs[rs] == spu.regs[rt]) {
         spu.pc += offset;
     } else {
         spu.pc++;
     }
 }
+
+void callCBIT(SPU& spu, uint32_t command) {
+    uint32_t rd = command >> FIRST_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rs));
+    uint32_t rs = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rs = %d; ",         rt));
+    uint32_t imm5 = command >> THIRD_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "imm5 = %d\n" RESET, imm5));
+
+
+    spu.regs[rd] = spu.regs[rs] & ~(1 << (imm5)); // that's magic 4sure
+
+    spu.pc++;
+
+}
+
+void callBEXT(SPU& spu, uint32_t command) {
+    uint32_t rd = command >> FIRST_ARG_OFFSET   & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
+    uint32_t rs1 = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rs1 = %d; ",         rs1));
+    uint32_t rs2 = command >> THIRD_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, "rs2 = %d\n" RESET, rs2));
+
+    spu.regs[rd] = spu.regs[rs1] & spu.regs[rs2];
+    spu.pc++;
+}
+
+void callLDP(SPU& spu, uint32_t command) {
+    uint32_t base = command >> FIRST_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
+    uint32_t rt1 = command >> SECOND_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, "rt1 = %d; ",         rt1));
+    uint32_t rt2 = command >> THIRD_ARG_OFFSET  & REG_MASK; ON_DEBUG(fprintf(stdout, "rt2 = %d; ", rt2));
+    uint32_t offset = command & LDP_OFFSET;                 ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
+
+    int32_t addr  = spu.regs[base] + offset;
+    spu.regs[rt1] = spu.memory[addr];      // TODO: no char's !!!!
+    spu.regs[rt2] = spu.memory[addr + 4]; // magic 4
+
+    spu.pc++;
+}
+
+void callLD(SPU& spu, uint32_t command) {
+    uint32_t base = command >> FIRST_ARG_OFFSET & REG_MASK; ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
+    uint32_t rt = command >> SECOND_ARG_OFFSET & REG_MASK;  ON_DEBUG(fprintf(stdout, "rt1 = %d; ",         rt));
+    uint32_t offset = command & LD_OFFSET;                  ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
+
+    spu.regs[rt] = spu.memory[spu.regs[base] + offset];
+    spu.pc++;
+}
+
+void callCLS(SPU& spu, uint32_t command) {
+
+}
+
+

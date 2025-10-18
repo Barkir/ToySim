@@ -5,6 +5,7 @@ class Integer
         if name.to_s =~ /^r([1-9]|[12][0-9]|[3][01])$/ && args.empty?
             return {offset: self, base: name}
         end
+        # reg_array
     end
 end
 
@@ -26,9 +27,12 @@ class MicroAsm
     end
 
     def prog(&block)
+
+    # ---------------------------
         @collecting_labels = true
         @pc = 0
         instance_eval(&block)
+    # ---------------------------------
 
         @pc = 0
         @collecting_labels = false
@@ -194,7 +198,7 @@ class MicroAsm
         # printf "Writing to file result.bin...\n"
         File.open("result.bin", "wb") do |file|
             @commands.each do |elem|
-                file.write([elem].pack("N"))
+                file.write([elem].pack("N")) ## little endian
             end
             absolute_path = File.expand_path("result.bin")
             file.close()
@@ -204,6 +208,7 @@ class MicroAsm
     end
 
     def label(label_str)
+        # TODO : assert on symbol
         if @collecting_labels
             # printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
             @labels[label_str] = @pc
@@ -325,7 +330,7 @@ class MicroAsm
 
     def extract_adr(operand)
         if operand.is_a?(Hash) && operand[:offset] && operand[:base]
-            [operand[:offset], operand[:base].to_s.delete(":r").to_i]
+            [operand[:offset], operand[:base].to_s.delete(":r").to_i] ## use method
         end
     end
 end

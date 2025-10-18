@@ -9,6 +9,8 @@
 #define ON_DEBUG(code)
 #endif
 
+const size_t DEFAULT_MEMORY_SIZE = 1024;
+
 enum commandHelpers {
     OPCODE_MASK         = 0x3F,
     REG_MASK            = 0x1F,
@@ -18,7 +20,10 @@ enum commandHelpers {
     OPCODE_OFFSET       = 26,
     JMP_OFFSET          = 0x3FFFFFF,
     IMM_OFFSET          = 0xFFFF,
-    BEQ_OFFSET          = 0xFFFF
+    BEQ_OFFSET          = 0xFFFF,
+    LDP_OFFSET          = 0x7FF,
+    LD_OFFSET           = 0xFFFF
+
 };
 
 enum toyCommands {
@@ -101,6 +106,7 @@ struct SPU {
 
     int32_t pc;
     int32_t regs[32];
+    char memory[DEFAULT_MEMORY_SIZE]; // class for memory
 };
 
 using executeFunc = void(*)(SPU&, enum toyCommands);
@@ -126,5 +132,65 @@ void callSYSCALL(SPU& spu, uint32_t command);
 void callSUBI(SPU& spu, uint32_t command);
 void callJMP(SPU& spu, uint32_t command);
 void callBEQ(SPU& spu, uint32_t command);
+void callLD(SPU& spu, uint32_t command);
+void callLDP(SPU& spu, uint32_t command);
+void callBEXT(SPU& spu, uint32_t command);
+void callCBIT(SPU& spu, uint32_t command);
+
+class Instruction {
+    private:
+        uint32_t command;
+
+        uint32_t firstReg;
+        uint32_t secondReg;
+        uint32_t thirdReg;
+
+        uint32_t rs;
+        uint32_t rd;
+        uint32_t rt;
+        int32_t imm5;
+        int32_t imm;
+        uint32_t base;
+        uint32_t rt1;
+        uint32_t rt2;
+        int32_t offset;
+        uint32_t rs1;
+        uint32_t rs2;
+
+    public: // constructor
+        Instruction(uint32_t commandIn) : command(commandIn) {}
+
+    public: // get functions
+        uint32_t getFirstReg()    {
+            firstReg = command >> FIRST_ARG_OFFSET  & REG_MASK;
+            ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+            return firstReg;
+        }
+
+        uint32_t getSecondReg() {
+            secondReg = command >> SECOND_ARG_OFFSET  & REG_MASK;
+            ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+            return secondReg;
+        }
+
+        uint32_t getThirdReg() {
+            thirdReg = command >> THIRD_ARG_OFFSET  & REG_MASK;
+            ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
+            return thirdReg;
+        }
 
 
+        uint32_t rsGet()    {return rs;}
+        uint32_t rdGet()    {return rd;}
+        uint32_t rtGet()    {return rt;}
+        int32_t imm5Get()   {return imm5;}
+        int32_t immGet()    {return imm;}
+        uint32_t baseGet()  {return base;}
+        uint32_t rt1Get()   {return rt1;}
+        uint32_t rt2Get()   {return rt2;}
+        int32_t  offsetGet(){return offset;}
+        uint32_t rs1Get()   {return rs1;}
+        uint32_t rs2Get()   {return rs2;}
+
+
+};

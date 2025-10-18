@@ -74,6 +74,13 @@ void init(std::vector<uint32_t> commands) {
                 callSYSCALL(spu, swappedCommand);
                 ON_DEBUG(spuDump(spu));
                 break;
+
+            case TOY_LD:
+                callLD(spu, swappedCommand);
+                break;
+            //
+            // case TOY_LDP:
+            //     callLDP(spu,)
         }
     }
 }
