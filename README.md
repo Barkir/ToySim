@@ -118,4 +118,30 @@ number 3 as the first one and 0,1 as the second one
 
 It mathes our case and we return a dictionary where we contain our object and the **name** of this _fictional_ method as a string.
 
-## Interpreter
+## Simulator
+
+This is a brief structure of simulator
+
+| File | Desc |
+|------|------|
+| [commands.cpp](src/commands.cpp) | implementations of instructions (`callCBIT, callCLS etc.`), dumps|
+| [interpeter.cpp](src/interpreter.cpp) | get commands from binary file, init function with big instruction switch |
+| [commands.hpp](include/commands.hpp) | function declarations, constants (opcodes, sizes, offsets), `MemorySPU` and `Instruction` classes |
+| [interpretep.hpp](include/interpreter.hpp) | function declarations |
+| [errors.hpp](include/errors.hpp) | errors declarations, esc-colors for dumps|
+
+## TODO's
+
+| #   | Task                         | Description                                                                                                    | Status |
+| :-- | :--------------------------- | :------------------------------------------------------------------------------------------------------------- | :----- |
+| 1   | Make a class for instruction | Should include methods for getting `rs, rd, rt` registers.                                                     | ✅      |
+| 2   | Make 1-byte addressing       | Change from 4-byte addressing to 1-byte addressing.                                                            | ✅      |
+| 3   | SignExtension for offset     | Used to handle jmp back (Ref: `commands.cpp:134`).                                                             | ✅      |
+| 4   | Function for CBIT            | Implement the CBIT function (Ref: `commands.cpp:150`).                                                         | ✅      |
+| 5   | Remove char's                | Refactor code to not use `char` types (Ref: `commands.cpp:173`).                                               | ✅      |
+| 6   | Implement CLS, RORI, ST      | Write the functions for `CLS`, `RORI`, and `ST` instructions.                                                  | ✅      |
+| 7   | Refactor BEXT function       | Clean up the `BEXT` function (Ref: `commands.cpp:161`).                                                        | ✅      |
+| 8   | Change to Little Endian      | Switch from big-endian to little-endian (Ref: `toy_isa.rb:201`). Delete `swapEndian` function in `.cpp` files. | ✅      |
+| 9   | Assert on symbol             | Add an assertion for a symbol (Ref: `toy_isa.rb:211`).                                                         | ✅      |
+| 10  | Refactor operand parsing     | Use a method for `[operand[:offset], operand[:base].to_s.delete(":r").to_i]` (Ref: `toy_isa.rb:333`).          | ✅      |
+| 11  | Class for memory             | Make a class for memory.                                                                                       | ✅      |

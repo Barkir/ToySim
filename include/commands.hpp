@@ -209,10 +209,6 @@ class Instruction {
             return offset;
         }
 
-
-
-
-
         uint32_t rsGet()    {return rs;}
         uint32_t rdGet()    {return rd;}
         uint32_t rtGet()    {return rt;}
