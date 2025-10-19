@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-// #define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define ON_DEBUG(code) code
 #else
@@ -17,6 +17,7 @@ const size_t BEQ_OFFSET_SIZE = 16;
 const size_t LDP_OFFSET_SIZE = 11;
 const size_t LD_OFFSET_SIZE  = 16;
 const size_t ST_OFFSET_SIZE  = 16;
+const size_t PC_INC = 4;
 
 enum commandHelpers {
     OPCODE_MASK         = 0x3F,

@@ -54,7 +54,7 @@ void callXOR(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rd] = spu.regs[rs] ^ spu.regs[rt];
-    spu.pc++; // 1-byte addressing
+    spu.pc += PC_INC; // 1-byte addressing
 
     // handle pc incrementing
     // pc, next_pc
@@ -71,7 +71,7 @@ void callMOVN(SPU& spu, Instruction command) {
         spu.regs[rd] = spu.regs[rs];
     }
 
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callADD(SPU& spu, Instruction command) {
@@ -82,7 +82,7 @@ void callADD(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rd] = spu.regs[rs] + spu.regs[rt];
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callSYSCALL(SPU& spu, Instruction command) {
@@ -97,7 +97,7 @@ void callSYSCALL(SPU& spu, Instruction command) {
             spu.regs[TOY_R0] = value;
             break;
     }
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callSUBI(SPU& spu, Instruction command) {
@@ -108,7 +108,7 @@ void callSUBI(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rt] = spu.regs[rs] - sign_extend(imm, IMM_SIZE);
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callJMP(SPU& spu, Instruction command) {
@@ -130,7 +130,7 @@ void callBEQ(SPU& spu, Instruction command) {
     if (spu.regs[rs] == spu.regs[rt]) {
         spu.pc += sign_extend(offset, BEQ_OFFSET_SIZE);
     } else {
-        spu.pc++;
+        spu.pc += PC_INC;
     }
 }
 
@@ -147,7 +147,7 @@ void callCBIT(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rd] = cbit(spu.regs[rs], imm5); // that's magic 4sure
-    spu.pc++;
+    spu.pc += PC_INC;
 
 }
 
@@ -176,7 +176,7 @@ void callBEXT(SPU& spu, Instruction command) {
 //  -----------------------------------
 
     spu.regs[rd] = bext(spu.regs[rs1], spu.regs[rs2]);
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callLDP(SPU& spu, Instruction command) {
@@ -192,7 +192,7 @@ void callLDP(SPU& spu, Instruction command) {
     spu.regs[rt1] = spu.memory[addr];      // TODO: no char's !!!!
     spu.regs[rt2] = spu.memory[addr + 4]; // magic 4
 
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callLD(SPU& spu, Instruction command) {
@@ -203,7 +203,7 @@ void callLD(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rt] = spu.memory[spu.regs[base] + sign_extend(offset, LD_OFFSET_SIZE)];
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 uint32_t cls(int32_t rs) {
@@ -221,7 +221,7 @@ void callCLS(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rd] = cls(spu.regs[rs]);
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 uint32_t rori(int32_t value, int32_t shift) {
@@ -235,7 +235,7 @@ void callRORI(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     spu.regs[rd] = rori(spu.regs[rs], imm5);
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 void callST(SPU& spu, Instruction command) {
@@ -244,7 +244,7 @@ void callST(SPU& spu, Instruction command) {
     int32_t offset = command.getStOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 //  -----------------------------------
     spu.memory[spu.regs[base] + sign_extend(offset, ST_OFFSET_SIZE)] = spu.regs[rt];
-    spu.pc++;
+    spu.pc += PC_INC;
 }
 
 

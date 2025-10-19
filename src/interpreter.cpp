@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstdint>
 #include <bitset>
+#include <cstring>
 
 #include "errors.hpp"
 #include "interpreter.hpp"
@@ -29,12 +30,21 @@ int main(int argc, char* argv[]) {
 
 // -------------------------------------------------------------------------------------------
 
+uint32_t getCommand(const std::vector<uint8_t> commands, size_t pc) {
+    uint32_t command = 0;
+    memcpy(&command, &commands[pc], 4);
+    return command;
+}
+
 void init(std::vector<uint32_t> commands, size_t fsize) {
     struct SPU spu(fsize);
-    while (spu.pc < commands.size()) {
-        auto command = commands[spu.pc];
 
-        // uint32_t commandObj = command;
+    std::vector<uint8_t>  commands_1byte(commands.size() * sizeof(uint32_t));
+    memcpy(commands_1byte.data(), commands.data(), commands_1byte.size());
+
+    while (spu.pc < commands_1byte.size()) {
+
+        auto command = getCommand(commands_1byte, spu.pc);
         Instruction commandObj(command);
 
         uint32_t opcode = commandObj.getOpcode();
