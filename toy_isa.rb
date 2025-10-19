@@ -1,9 +1,11 @@
 require_relative "constants"
 
+
 class Integer
     def method_missing(name, *args)
         if name.to_s =~ /^r([1-9]|[12][0-9]|[3][01])$/ && args.empty?
-            return {offset: self, base: name}
+            value = send(name) # calling a register method(r1 -> 1, r2 -> 2, ...)
+            return {offset: self, base: value}
         end
         # reg_array
     end
@@ -208,7 +210,7 @@ class MicroAsm
     end
 
     def label(label_str)
-        # TODO : assert on symbol
+        raise  "Expected symbol, got #{label_str.class}" unless label_str.is_a?(Symbol)
         if @collecting_labels
             # printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
             @labels[label_str] = @pc
@@ -330,7 +332,7 @@ class MicroAsm
 
     def extract_adr(operand)
         if operand.is_a?(Hash) && operand[:offset] && operand[:base]
-            [operand[:offset], operand[:base].to_s.delete(":r").to_i] ## use method
+            [operand[:offset], operand[:base]] ## use method
         end
     end
 end
