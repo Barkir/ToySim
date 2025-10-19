@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define ON_DEBUG(code) code
 #else
@@ -24,7 +24,8 @@ enum commandHelpers {
     IMM_OFFSET          = 0xFFFF,
     BEQ_OFFSET          = 0xFFFF,
     LDP_OFFSET          = 0x7FF,
-    LD_OFFSET           = 0xFFFF
+    LD_OFFSET           = 0xFFFF,
+    ST_OFFSET           = 0xFFFF
 
 };
 
@@ -129,7 +130,7 @@ struct SPU {
     MemorySPU memory; // class for memory
 
 
-    SPU(size_t capIn) : memory(capIn), cap(capIn) {} // constructor
+    SPU(size_t capIn) : memory(capIn), cap(capIn), pc(0), regs({}) {} // constructor
 
 };
 
@@ -197,6 +198,11 @@ class Instruction {
             return offset;
         }
 
+        int32_t getStOffset() {
+            offset = command & ST_OFFSET;
+            return offset;
+        }
+
 
 
 
@@ -243,4 +249,7 @@ void callLD     (SPU& spu,      Instruction command);
 void callLDP    (SPU& spu,      Instruction command);
 void callBEXT   (SPU& spu,      Instruction command);
 void callCBIT   (SPU& spu,      Instruction command);
+void callST     (SPU& spu,      Instruction command);
+void callRORI   (SPU& spu,      Instruction command);
+void callCLS    (SPU& spu,      Instruction command);
 

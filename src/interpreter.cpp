@@ -31,12 +31,10 @@ int main(int argc, char* argv[]) {
 
 void init(std::vector<uint32_t> commands, size_t fsize) {
     struct SPU spu(fsize);
-
-
     while (spu.pc < commands.size()) {
         auto command = commands[spu.pc];
 
-        uint32_t swappedCommand = command;
+        // uint32_t commandObj = command;
         Instruction commandObj(command);
 
         uint32_t opcode = commandObj.getOpcode();
@@ -44,45 +42,63 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
 
         switch (it->first) {
             case TOY_XOR:
-                callXOR(spu, swappedCommand);
+                callXOR(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
             case TOY_MOVN:
-                callMOVN(spu, swappedCommand);
+                callMOVN(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_ADD:
-                callADD(spu, swappedCommand);
+                callADD(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_SUBI:
-                callSUBI(spu, swappedCommand);
+                callSUBI(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_JMP:
-                callJMP(spu, swappedCommand);
+                callJMP(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_BEQ:
-                callBEQ(spu, swappedCommand);
+                callBEQ(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_SYSCALL:
-                callSYSCALL(spu, swappedCommand);
+                callSYSCALL(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 
             case TOY_LD:
-                callLD(spu, swappedCommand);
+                callLD(spu, commandObj);
+                ON_DEBUG(spuDump(spu));
                 break;
-            //
-            // case TOY_LDP:
-            //     callLDP(spu,)
+
+            case TOY_LDP:
+                callLDP(spu, commandObj);
+                ON_DEBUG(spuDump(spu));
+                break;
+
+            case TOY_CLS:
+                callCLS(spu, commandObj);
+                ON_DEBUG(spuDump(spu));
+                break;
+
+            case TOY_RORI:
+                callRORI(spu, commandObj);
+                ON_DEBUG(spuDump(spu));
+                break;
+
+            case TOY_ST:
+                callST(spu, commandObj);
+                ON_DEBUG(spuDump(spu));
+                break;
         }
     }
 }

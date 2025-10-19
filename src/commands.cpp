@@ -191,9 +191,47 @@ void callLD(SPU& spu, Instruction command) {
     spu.pc++;
 }
 
-void callCLS(SPU& spu, Instruction command) {
+uint32_t cls(int32_t rs) {
+    uint32_t result = 0;
+    for (int i = 0; i < REG_SIZE; i++) {
+        result += (rs >> i) & 1;
+    }
 
+    return result;
 }
+
+void callCLS(SPU& spu, Instruction command) {
+    uint32_t rd = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
+    uint32_t rs = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rs = %d\n" RESET, rs));
+
+//  -----------------------------------
+    spu.regs[rd] = cls(spu.regs[rs]);
+    spu.pc++;
+}
+
+uint32_t rori(int32_t value, int32_t shift) {
+    return (value >> (shift & 0x1F)) | (value << ((32 - shift) & 0x1F));
+}
+
+void callRORI(SPU& spu, Instruction command) {
+    uint32_t rd = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
+    uint32_t rs = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rs = %d; ", rs));
+    int32_t imm5 = command.getThirdReg();   ON_DEBUG(fprintf(stdout, "imm5 = %d" RESET,  imm5));
+
+//  -----------------------------------
+    spu.regs[rd] = rori(spu.regs[rs], imm5);
+    spu.pc++;
+}
+
+void callST(SPU& spu, Instruction command) {
+    uint32_t base = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
+    uint32_t rt = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
+    int32_t offset = command.getStOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
+//  -----------------------------------
+    spu.memory[spu.regs[base] + offset] = spu.regs[rt];
+    spu.pc++;
+}
+
 
 // ------------------------------------------------------#
 
