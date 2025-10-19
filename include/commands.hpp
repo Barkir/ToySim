@@ -12,6 +12,11 @@
 
 const size_t DEFAULT_MEMORY_SIZE = 1024;
 const size_t REG_SIZE = 32;
+const size_t IMM_SIZE = 16;
+const size_t BEQ_OFFSET_SIZE = 16;
+const size_t LDP_OFFSET_SIZE = 11;
+const size_t LD_OFFSET_SIZE  = 16;
+const size_t ST_OFFSET_SIZE  = 16;
 
 enum commandHelpers {
     OPCODE_MASK         = 0x3F,

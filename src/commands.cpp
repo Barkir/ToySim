@@ -9,6 +9,21 @@ uint32_t swapEndian(uint32_t value) {
     return __builtin_bswap32(value);
 }
 
+int32_t sign_extend(int32_t value, uint32_t bit_length) {
+    if (bit_length >= 32)
+        return value;
+
+    uint32_t sign_bit = value & (1 << (bit_length - 1));
+
+    if (sign_bit) {
+        uint32_t mask = (1 << bit_length) - 1;
+        return value | (~mask);
+    } else {
+        uint32_t mask = (1 << bit_length) - 1;
+        return value & mask;
+    }
+}
+
 void commandDump(std::string commandName, uint32_t command) {
     std::cout << CYAN << commandName << RESET << "\t" << std::bitset<32>(command) <<"\n";
 }
@@ -92,7 +107,7 @@ void callSUBI(SPU& spu, Instruction command) {
     int32_t imm = command.getImm();       ON_DEBUG(fprintf(stdout, "imm = %d\n" RESET, imm));
 
 //  -----------------------------------
-    spu.regs[rt] = spu.regs[rs] - imm;
+    spu.regs[rt] = spu.regs[rs] - sign_extend(imm, IMM_SIZE);
     spu.pc++;
 }
 
@@ -113,7 +128,7 @@ void callBEQ(SPU& spu, Instruction command) {
 
 //  -----------------------------------
     if (spu.regs[rs] == spu.regs[rt]) {
-        spu.pc += offset;
+        spu.pc += sign_extend(offset, BEQ_OFFSET_SIZE);
     } else {
         spu.pc++;
     }
@@ -172,7 +187,7 @@ void callLDP(SPU& spu, Instruction command) {
     uint32_t offset = command.getLdpOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 
 //  -----------------------------------
-    int32_t addr  = spu.regs[base] + offset;
+    int32_t addr  = spu.regs[base] + sign_extend(offset, LDP_OFFSET_SIZE);
 
     spu.regs[rt1] = spu.memory[addr];      // TODO: no char's !!!!
     spu.regs[rt2] = spu.memory[addr + 4]; // magic 4
@@ -187,7 +202,7 @@ void callLD(SPU& spu, Instruction command) {
     uint32_t offset = command.getLdOffset();  ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 
 //  -----------------------------------
-    spu.regs[rt] = spu.memory[spu.regs[base] + offset];
+    spu.regs[rt] = spu.memory[spu.regs[base] + sign_extend(offset, LD_OFFSET_SIZE)];
     spu.pc++;
 }
 
@@ -216,7 +231,7 @@ uint32_t rori(int32_t value, int32_t shift) {
 void callRORI(SPU& spu, Instruction command) {
     uint32_t rd = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
     uint32_t rs = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rs = %d; ", rs));
-    int32_t imm5 = command.getThirdReg();   ON_DEBUG(fprintf(stdout, "imm5 = %d" RESET,  imm5));
+    int32_t imm5 = command.getThirdReg();   ON_DEBUG(fprintf(stdout, "imm5 = %d\n" RESET,  imm5));
 
 //  -----------------------------------
     spu.regs[rd] = rori(spu.regs[rs], imm5);
@@ -228,7 +243,7 @@ void callST(SPU& spu, Instruction command) {
     uint32_t rt = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
     int32_t offset = command.getStOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 //  -----------------------------------
-    spu.memory[spu.regs[base] + offset] = spu.regs[rt];
+    spu.memory[spu.regs[base] + sign_extend(offset, ST_OFFSET_SIZE)] = spu.regs[rt];
     spu.pc++;
 }
 
