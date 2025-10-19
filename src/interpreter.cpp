@@ -36,8 +36,8 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
     while (spu.pc < commands.size()) {
         auto command = commands[spu.pc];
 
-        uint32_t swappedCommand = swapEndian(command);
-        Instruction commandObj(swappedCommand);
+        uint32_t swappedCommand = command;
+        Instruction commandObj(command);
 
         uint32_t opcode = commandObj.getOpcode();
         auto it = OPCODE_MAP.find(opcode);

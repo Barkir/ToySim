@@ -200,7 +200,7 @@ class MicroAsm
         # printf "Writing to file result.bin...\n"
         File.open("result.bin", "wb") do |file|
             @commands.each do |elem|
-                file.write([elem].pack("N")) ## little endian
+                file.write([elem].pack("L<")) ## little endian
             end
             absolute_path = File.expand_path("result.bin")
             file.close()
