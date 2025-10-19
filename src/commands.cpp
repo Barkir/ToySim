@@ -136,6 +136,22 @@ void callCBIT(SPU& spu, Instruction command) {
 
 }
 
+int32_t bext(int32_t rs1, int32_t rs2) {
+    int32_t result = 0;
+    int32_t bit_index = 0;
+
+    for (int i = 0; i < REG_SIZE; i++) {
+        if (rs2 & (1 << i)) {
+            int32_t bit = (rs1 >> i) & i;
+
+            result |= (bit << bit_index);
+            bit_index++;
+        }
+    }
+
+    return result;
+}
+
 void callBEXT(SPU& spu, Instruction command) {
 
     uint32_t rd  = command.getFirstReg();     ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
@@ -143,7 +159,8 @@ void callBEXT(SPU& spu, Instruction command) {
     uint32_t rs2 = command.getThirdReg();     ON_DEBUG(fprintf(stdout, "rs2 = %d\n" RESET, rs2));
 
 //  -----------------------------------
-    spu.regs[rd] = spu.regs[rs1] & spu.regs[rs2]; // TODO: wrong insturction
+
+    spu.regs[rd] = bext(spu.regs[rs1], spu.regs[rs2]);
     spu.pc++;
 }
 

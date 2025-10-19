@@ -11,6 +11,7 @@
 #endif
 
 const size_t DEFAULT_MEMORY_SIZE = 1024;
+const size_t REG_SIZE = 32;
 
 enum commandHelpers {
     OPCODE_MASK         = 0x3F,
