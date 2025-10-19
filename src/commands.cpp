@@ -34,7 +34,7 @@ void spuDump(SPU& spu) {
 void callXOR(SPU& spu, Instruction command) {
 
     uint32_t rs = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
-    uint32_t rt = command.getSecondReg(); ON_DEBUG(fprint(stdout, "rt = %d; ", rt));
+    uint32_t rt = command.getSecondReg(); ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
     uint32_t rd = command.getThirdReg();  ON_DEBUG(fprintf(stdout, "rd = %d\n" RESET, rd));
 
 //  -----------------------------------
@@ -125,8 +125,8 @@ int32_t cbit(int32_t value, uint32_t offset) {
 
 void callCBIT(SPU& spu, Instruction command) {
 
-    uint32_t rd = command.getFirstReg();      ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rs));
-    uint32_t rs = command.getSecondReg();     ON_DEBUG(fprintf(stdout, "rs = %d; ",         rt));
+    uint32_t rd = command.getFirstReg();      ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
+    uint32_t rs = command.getSecondReg();     ON_DEBUG(fprintf(stdout, "rs = %d; ",         rs));
     uint32_t imm5 = command.getThirdReg();    ON_DEBUG(fprintf(stdout, "imm5 = %d\n" RESET, imm5)); // TODO: find any way to handle bad naming
 
 
@@ -149,13 +149,14 @@ void callBEXT(SPU& spu, Instruction command) {
 
 void callLDP(SPU& spu, Instruction command) {
 
-    uint32_t base = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
-    uint32_t rt1 = command.getSecondReg();    ON_DEBUG(fprintf(stdout, "rt1 = %d; ",         rt1));
-    uint32_t rt2 = command.getThirdReg();     ON_DEBUG(fprintf(stdout, "rt2 = %d; ", rt2));
+    uint32_t base   = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
+    uint32_t rt1    = command.getSecondReg();    ON_DEBUG(fprintf(stdout, "rt1 = %d; ",         rt1));
+    uint32_t rt2    = command.getThirdReg();     ON_DEBUG(fprintf(stdout, "rt2 = %d; ", rt2));
     uint32_t offset = command.getLdpOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 
 //  -----------------------------------
     int32_t addr  = spu.regs[base] + offset;
+
     spu.regs[rt1] = spu.memory[addr];      // TODO: no char's !!!!
     spu.regs[rt2] = spu.memory[addr + 4]; // magic 4
 

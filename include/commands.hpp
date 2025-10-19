@@ -1,8 +1,9 @@
 #include <unordered_map>
 #include <cstdint>
 #include <string>
+#include <vector>
 
-
+#define DEBUG
 #ifdef DEBUG
 #define ON_DEBUG(code) code
 #else
@@ -102,11 +103,33 @@ static const std::unordered_map<uint32_t, std::string> OPCODE_MAP {
     {TOY_SYSCALL,   "SYSCALL"   }
 };
 
+struct MemorySPU {
+
+    std::vector<int32_t> memory;
+
+    public:
+        MemorySPU(size_t cap) : memory(cap, 0) {} // initialize vector if size cap and value 0.
+
+
+    public: // operators
+    int32_t& operator[](int32_t index) {
+        return memory[index];
+    }
+
+
+};
+
 struct SPU {
 
     int32_t pc;
     int32_t regs[32];
-    char memory[DEFAULT_MEMORY_SIZE]; // class for memory
+    size_t cap;
+
+    MemorySPU memory; // class for memory
+
+
+    SPU(size_t capIn) : memory(capIn), cap(capIn) {} // constructor
+
 };
 
 class Instruction {

@@ -17,19 +17,20 @@ int main(int argc, char* argv[]) {
     {
         std::string filename = argv[1]; // not a magic number :)
         std::vector<uint32_t> commands;
-        if (get_commands(&commands, filename)) {
+        size_t fsize = 0;
+        if (get_commands(&commands, filename, &fsize)) {
             return TOY_FAILED;
         }
 
         ON_DEBUG(hexDump(commands));
-        init(commands);
+        init(commands, fsize);
     }
 }
 
 // -------------------------------------------------------------------------------------------
 
-void init(std::vector<uint32_t> commands) {
-    struct SPU spu = {};
+void init(std::vector<uint32_t> commands, size_t fsize) {
+    struct SPU spu(fsize);
 
 
     while (spu.pc < commands.size()) {
@@ -87,7 +88,7 @@ void init(std::vector<uint32_t> commands) {
 }
 
 // returns an array of 32-bit commands
-enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& filename) {
+enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& filename, size_t *fsz) {
     std::ifstream file(filename, std::ios::binary);
 
     if (!file) {
@@ -96,6 +97,7 @@ enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& 
     }
 
     size_t fSize = getFileSize(file);
+    *fsz = fSize;
     if (fSize % COMMAND_SIZE || fSize == 0) {
         std::cerr << "WRONG FILE SIZE " << fSize << "\n";
         file.close();

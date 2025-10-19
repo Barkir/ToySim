@@ -1,4 +1,4 @@
-require_relative "toy_isa"
+require_relative "../toy_isa"
 
 asm = MicroAsm.new
 
