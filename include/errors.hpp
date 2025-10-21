@@ -4,6 +4,7 @@ struct errorContext {
 
 };
 
+
 enum toyErrors {
     TOY_SUCCESS,
     TOY_FILE_READ_ERROR,

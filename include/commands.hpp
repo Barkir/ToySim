@@ -20,6 +20,10 @@ const size_t ST_OFFSET_SIZE  = 16;
 const size_t PC_INC = 4;
 
 enum commandHelpers {
+    FIRST_REG           = 1,
+    SECOND_REG          = 2,
+    THIRD_REG           = 3,
+    UNKNOWN_REG         = -1,
     OPCODE_MASK         = 0x3F,
     REG_MASK            = 0x1F,
     FIRST_ARG_OFFSET    = 21,
@@ -53,6 +57,7 @@ enum toyCommands {
 
     TOY_WRONG_OPCODE=-1
 };
+
 
 enum toyRegs {
     TOY_R0 = 0,
@@ -143,20 +148,8 @@ struct SPU {
 class Instruction {
     private:
         uint32_t command;
-
-        uint32_t firstReg;
-        uint32_t secondReg;
-        uint32_t thirdReg;
-
-        uint32_t rs;
         uint32_t rd;
-        uint32_t rt;
-        int32_t imm5;
         int32_t imm;
-        uint32_t base;
-        uint32_t rt1;
-        uint32_t rt2;
-        int32_t offset;
         uint32_t rs1;
         uint32_t rs2;
 
@@ -164,19 +157,20 @@ class Instruction {
         Instruction(uint32_t commandIn) : command(commandIn) {}
 
     public: // get functions
+
         uint32_t getFirstReg()    {
-            firstReg = command >> FIRST_ARG_OFFSET  & REG_MASK;
-            return firstReg;
+            rd = command >> FIRST_ARG_OFFSET  & REG_MASK;
+            return rd;
         }
 
         uint32_t getSecondReg() {
-            secondReg = command >> SECOND_ARG_OFFSET  & REG_MASK;
-            return secondReg;
+            rs1 = command >> SECOND_ARG_OFFSET  & REG_MASK;
+            return rs1;
         }
 
         uint32_t getThirdReg() {
-            thirdReg = command >> THIRD_ARG_OFFSET  & REG_MASK;
-            return thirdReg;
+            rs2 = command >> THIRD_ARG_OFFSET  & REG_MASK;
+            return rs2;
         }
 
         int32_t getImm() {
@@ -185,42 +179,24 @@ class Instruction {
         }
 
         int32_t getJmpOffset() {
-            offset = command & JMP_OFFSET;
-            return offset;
+            return command & JMP_OFFSET;
         }
 
         int32_t getBeqOffset() {
-            offset = command & BEQ_OFFSET;
-            return offset;
+            return command & BEQ_OFFSET;
         }
 
         int32_t getLdpOffset() {
-            offset = command & LDP_OFFSET;
-            return offset;
+            return command & LDP_OFFSET;
         }
 
         int32_t getLdOffset() {
-            offset = command & LD_OFFSET;
-            return offset;
+            return command & LD_OFFSET;
         }
 
         int32_t getStOffset() {
-            offset = command & ST_OFFSET;
-            return offset;
+            return command & ST_OFFSET;
         }
-
-        uint32_t rsGet()    {return rs;}
-        uint32_t rdGet()    {return rd;}
-        uint32_t rtGet()    {return rt;}
-        int32_t imm5Get()   {return imm5;}
-        int32_t immGet()    {return imm;}
-        uint32_t baseGet()  {return base;}
-        uint32_t rt1Get()   {return rt1;}
-        uint32_t rt2Get()   {return rt2;}
-        int32_t  offsetGet(){return offset;}
-        uint32_t rs1Get()   {return rs1;}
-        uint32_t rs2Get()   {return rs2;}
-
 
     public: // special functions
         uint32_t getOpcode();
