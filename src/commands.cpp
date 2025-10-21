@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <iostream>
 #include <bitset>
+#include <cstring>
 
 #include "commands.hpp"
 #include "errors.hpp"
@@ -189,8 +190,8 @@ void callLDP(SPU& spu, Instruction command) {
 //  -----------------------------------
     int32_t addr  = spu.regs[base] + sign_extend(offset, LDP_OFFSET_SIZE);
 
-    spu.regs[rt1] = spu.memory[addr];      // TODO: no char's !!!!
-    spu.regs[rt2] = spu.memory[addr + 4]; // magic 4
+    memcpy(&(spu.memory[addr]),   &spu.regs[rt1], sizeof(uint32_t));
+    memcpy(&(spu.memory[addr+4]), &spu.regs[rt2], sizeof(uint32_t));
 
     spu.pc += PC_INC;
 }
@@ -202,7 +203,7 @@ void callLD(SPU& spu, Instruction command) {
     uint32_t offset = command.getLdOffset();  ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 
 //  -----------------------------------
-    spu.regs[rt] = spu.memory[spu.regs[base] + sign_extend(offset, LD_OFFSET_SIZE)];
+    memcpy(&spu.regs[rt], &spu.memory[spu.regs[base] + sign_extend(offset, LD_OFFSET_SIZE)], sizeof(uint32_t));
     spu.pc += PC_INC;
 }
 
@@ -243,7 +244,7 @@ void callST(SPU& spu, Instruction command) {
     uint32_t rt = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
     int32_t offset = command.getStOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
 //  -----------------------------------
-    spu.memory[spu.regs[base] + sign_extend(offset, ST_OFFSET_SIZE)] = spu.regs[rt];
+    memcpy(&spu.memory[spu.regs[base] + sign_extend(offset, ST_OFFSET_SIZE)], &spu.regs[rt], sizeof(uint32_t));
     spu.pc += PC_INC;
 }
 

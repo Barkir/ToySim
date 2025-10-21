@@ -118,14 +118,14 @@ static const std::unordered_map<uint32_t, std::string> OPCODE_MAP {
 
 struct MemorySPU {
 
-    std::vector<int32_t> memory;
+    std::vector<int8_t> memory;
 
     public:
         MemorySPU(size_t cap) : memory(cap, 0) {} // initialize vector if size cap and value 0.
 
 
     public: // operators
-    int32_t& operator[](int32_t index) {
+    int8_t& operator[](int32_t index) {
         return memory[index];
     }
 
