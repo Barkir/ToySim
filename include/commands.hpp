@@ -130,7 +130,7 @@ struct MemorySPU {
 struct SPU {
 
     int32_t pc;
-    int32_t regs[32];
+    uint32_t regs[32];
     size_t cap;
 
     MemorySPU memory; // class for memory
