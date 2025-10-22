@@ -25,5 +25,4 @@ asm.prog do
     add r8, r8, r8                  # syscall 2 - print number from r1
     movn r1, r2, r8                 # r2 -> r1 (n fib is now in r1)
     syscall
-    hlt
 end

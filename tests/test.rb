@@ -19,5 +19,4 @@ asm.prog do
     # st r1, 68.r17
     # xor r1, r5, r8
     # syscall
-    hlt
 end

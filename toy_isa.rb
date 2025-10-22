@@ -40,6 +40,9 @@ class MicroAsm
         @command_pc = 0
         @collecting_labels = false
         instance_eval(&block)
+
+        save_binary
+        run_binary
     end
 
     def write_command(value)
@@ -181,12 +184,7 @@ class MicroAsm
         write_command(translate_syscall())
     end
 
-    def hlt()
-        if @collecting_labels
-            @pc += 4
-            return
-        end
-
+    def save_binary()
         @commands.each_with_index do |cmd, idx|
             printf "0x%04X: %08X %b\n", idx, cmd, cmd
         end
@@ -198,7 +196,8 @@ class MicroAsm
             end
             absolute_path = File.expand_path("result.bin")
             file.close()
-            system(TOY_SIM + "ToySim " + absolute_path)
+
+            # system(TOY_SIM + "ToySim " + absolute_path)
 
         end
     end
@@ -217,6 +216,29 @@ class MicroAsm
 # WARNING! THERE IS A PRIVATE SWAMP OF MAGIC NUMBERS DOWN HERE (｀∀´)っ🗑️
 # ======================================================================
     private # <- запривачено
+
+    def save_binary(filename="result.bin")
+        @commands.each_with_index do |cmd, idx|
+            printf "0x%04X: %08X %b\n", idx, cmd, cmd
+        end
+
+        # printf "Writing to file result.bin...\n"
+        File.open(filename, "wb") do |file|
+            @commands.each do |elem|
+                file.write([elem].pack("L<")) ## little endian
+            end
+            absolute_path = File.expand_path("result.bin")
+            file.close()
+
+            filename
+
+        end
+    end
+
+    def run_binary(binary_filename="result.bin")
+        absolute_path = File.expand_path(binary_filename)
+        system(TOY_SIM + "ToySim " + absolute_path)
+    end
 
     def translate_j(label_pc)
         opcode = INSTRUCTION_SET["J"]
