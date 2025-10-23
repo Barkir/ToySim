@@ -42,7 +42,8 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
     std::vector<uint8_t>  commands_1byte(commands.size() * sizeof(uint32_t));
     memcpy(commands_1byte.data(), commands.data(), commands_1byte.size());
 
-    while (spu.pc < commands_1byte.size()) {
+    size_t cm_sz = commands_1byte.size();
+    while (spu.pc < cm_sz) {
 
         auto command = getCommand(commands_1byte, spu.pc);
         Instruction commandObj(command);
