@@ -186,7 +186,7 @@ class MicroAsm
 
     def save_binary()
         @commands.each_with_index do |cmd, idx|
-            printf "0x%04X: %08X %b\n", idx, cmd, cmd
+            # printf "0x%04X: %08X %b\n", idx, cmd, cmd
         end
 
         # printf "Writing to file result.bin...\n"
@@ -205,7 +205,7 @@ class MicroAsm
     def label(label_str)
         raise  "Expected symbol, got #{label_str.class}" unless label_str.is_a?(Symbol)
         if @collecting_labels
-            printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
+            # printf "PRECOMP: got label %s with pc %d\n", label_str, @pc
             @labels[label_str] = @pc
         end
     end
@@ -219,7 +219,7 @@ class MicroAsm
 
     def save_binary(filename="result.bin")
         @commands.each_with_index do |cmd, idx|
-            printf "0x%04X: %08X %b\n", idx, cmd, cmd
+            # printf "0x%04X: %08X %b\n", idx, cmd, cmd
         end
 
         # printf "Writing to file result.bin...\n"
@@ -242,7 +242,7 @@ class MicroAsm
 
     def translate_j(label_pc)
         opcode = INSTRUCTION_SET["J"]
-        printf "JMP: label_pc %d, pc %d, offset %d\n", label_pc, @pc, (label_pc - @pc)
+        # printf "JMP: label_pc %d, pc %d, offset %d\n", label_pc, @pc, (label_pc - @pc)
         (opcode << 26) | ((label_pc - @pc) & 0x3FFFFFF) # count jmp from the next pc after jmp (from label)
     end
 
