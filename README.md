@@ -58,10 +58,10 @@ Those are equal! So `movn` is just a method of the class called `MicroAsm` which
 | beq rs, rt, offset     | if (rs == rt) pc = pc + offset   | ☑️        |
 | bext    |                                                 | ☑️        |
 | ldp     |                                                 | ☑️        |
-| ld      |                                                 |         |
-| cls     |                                                 |         |
-| rori    |                                                 |         |
-| st      |                                                 |         |
+| ld      |                                                 | ☑️        |
+| cls     |                                                 | ☑️        |
+| rori    |                                                 | ☑️        |
+| st      |                                                 | ☑️        |
 | xor     |                                                 | ☑️        |
 | syscall | r8 - system call number, r0-r7 - args, r0-result| ☑️        |
 
@@ -137,9 +137,11 @@ It runs `perf` and `hyperfine`, then stores the data in folders with the same na
 
 ### Some Results
 
-| Big Switch | HashTable |
-|--------|-----|
-|![image1](./benchmarks/images/chart_20251024_190354_622493.png)| |
+|#| Big Switch | HashTable |
+|-|--------|-----|
+| 1|![image1](./benchmarks/images/chart_20251024_190354_622493.png)| ![image2](./benchmarks/images/chart_20251024_200231_921141.png)|
+| 2 | ![image5](./benchmarks/images/chart_20251024_200847_400550.png)| ![image3](./benchmarks/images/chart_20251024_200523_629138.png)|
+| 3 | ![image6](./benchmarks/images/chart_20251024_201022_915048.png)| ![image4](./benchmarks/images/chart_20251024_200648_848931.png)|
 
 ## TODO's
 

@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <functional>
 
 // #define DEBUG
 #ifdef DEBUG
@@ -98,24 +99,6 @@ enum toySyscalls {
     TOY_INPUT = 1,
     TOY_PRINT = 2
 };
-
-static const std::unordered_map<uint32_t, std::string> OPCODE_MAP {
-    {TOY_JMP,       "JMP"       },
-    {TOY_CBIT,      "CBIT"      },
-    {TOY_SUBI,      "SUBI"      },
-    {TOY_MOVN,      "MOVN"      },
-    {TOY_BEQ,       "BEQ"       },
-    {TOY_BEXT,      "BEXT"      },
-    {TOY_LDP,       "LDP"       },
-    {TOY_ADD,       "ADD"       },
-    {TOY_LD,        "LD"        },
-    {TOY_CLS,       "CLS"       },
-    {TOY_RORI,      "RORI"      },
-    {TOY_ST,        "ST"        },
-    {TOY_XOR,       "XOR"       },
-    {TOY_SYSCALL,   "SYSCALL"   }
-};
-
 struct MemorySPU {
 
     std::vector<int8_t> memory;
@@ -202,15 +185,6 @@ class Instruction {
         uint32_t getOpcode();
 };
 
-using executeFunc = void(*)(SPU&, enum toyCommands);
-
-// structure to create a structure array with all the execute functions.
-struct commandHandler {
-    enum toyCommands opcode;
-    executeFunc func;
-};
-
-uint32_t swapEndian(uint32_t value);
 
 
 void spuDump(SPU& spu);
@@ -230,4 +204,33 @@ void callCBIT   (SPU& spu,      Instruction command);
 void callST     (SPU& spu,      Instruction command);
 void callRORI   (SPU& spu,      Instruction command);
 void callCLS    (SPU& spu,      Instruction command);
+
+using funcIt = std::function<void (SPU& spu, Instruction)>;
+static const std::unordered_map<uint32_t, funcIt> OPCODE_MAP {
+    {TOY_JMP,       callJMP         },
+    {TOY_CBIT,      callCBIT        },
+    {TOY_SUBI,      callSUBI        },
+    {TOY_MOVN,      callMOVN        },
+    {TOY_BEQ,       callBEQ         },
+    {TOY_BEXT,      callBEXT        },
+    {TOY_LDP,       callLDP         },
+    {TOY_ADD,       callADD         },
+    {TOY_LD,        callLD          },
+    {TOY_CLS,       callCLS         },
+    {TOY_RORI,      callRORI        },
+    {TOY_ST,        callST          },
+    {TOY_XOR,       callXOR         },
+    {TOY_SYSCALL,   callSYSCALL     }
+};
+
+
+using executeFunc = void(*)(SPU&, enum toyCommands);
+
+// structure to create a structure array with all the execute functions.
+struct commandHandler {
+    enum toyCommands opcode;
+    executeFunc func;
+};
+
+uint32_t swapEndian(uint32_t value);
 
