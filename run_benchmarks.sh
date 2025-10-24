@@ -19,7 +19,7 @@ run_benchmarks() {
     echo -e "${GREEN} starting: ${YELLOW} $bench_name$ ${NC}"
 
     perf record -g -o "$PERF_DIR/${bench_name}.data" -- ruby "$bench_file"
-    hyperfine --warmup 10 --min-runs 100 -i "ruby $bench_file" > "$HYPERFINE_DIR/$bench_name.hpf"
+    hyperfine -i "ruby $bench_file" > "$HYPERFINE_DIR/$bench_name.hpf"
 
 }
 

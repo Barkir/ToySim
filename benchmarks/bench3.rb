@@ -17,6 +17,1039 @@ asm3.prog do
   movn r7, r4, r4
   movn r8, r5, r5
 
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+
+    add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+  add r2, r2, r2
+  add r4, r4, r3
+  xor r5, r2, r4
+
+  movn r6, r2, r2
+  movn r7, r4, r4
+  movn r8, r5, r5
+
   subi r1, r1, 1
   beq r1, r0, :end1
   jmp :loop1

@@ -139,9 +139,9 @@ It runs `perf` and `hyperfine`, then stores the data in folders with the same na
 
 |#| Big Switch | HashTable |
 |-|--------|-----|
-| 1|![image1](./benchmarks/images/chart_20251024_190354_622493.png)| ![image2](./benchmarks/images/chart_20251024_200231_921141.png)|
-| 2 | ![image5](./benchmarks/images/chart_20251024_200847_400550.png)| ![image3](./benchmarks/images/chart_20251024_200523_629138.png)|
-| 3 | ![image6](./benchmarks/images/chart_20251024_201022_915048.png)| ![image4](./benchmarks/images/chart_20251024_200648_848931.png)|
+| 1|![image4](./benchmarks/images/chart_20251024_223057_957031.png)| ![image1](./benchmarks/images/chart_20251024_221829_074768.png)|
+| 2 | ![image5](./benchmarks/images/chart_20251024_223319_926548.png)| ![image2](./benchmarks/images/chart_20251024_222120_079063.png)|
+| 3 | ![image6](./benchmarks/images/chart_20251024_223533_611416.png)| ![image3](./benchmarks/images/chart_20251024_222515_117580.png)|
 
 ## TODO's
 

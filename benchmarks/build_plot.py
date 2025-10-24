@@ -12,7 +12,11 @@ plt.style.use("seaborn-v0_8")
 times = []
 for file in files:
     file2str = open(file).readlines()
-    times.append(float(file2str[1].split(":")[1].split("ms")[0]))
+    try:
+        times.append(float(file2str[1].split(":")[1].split("ms")[0]) / 1000)
+    except:
+            times.append(float(file2str[1].split(":")[1].split("s")[0]))
+
 
 nums = [k+1 for k in range(len(times))]
 times = sorted(times)
@@ -23,12 +27,12 @@ diagram=plt.bar(nums, times)
 plt.xticks(rotation=45, ha='right')
 
 plt.xlim(0, 8)
-plt.ylim(0, 200)
+plt.ylim(0, 5)
 
 plt.grid(axis='y', alpha=0.3)
 
 plt.xlabel("Benchmark number")
-plt.ylabel("Time, ms")
+plt.ylabel("Time, s")
 
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
