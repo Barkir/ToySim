@@ -130,6 +130,17 @@ This is a brief structure of simulator
 | [interpretep.hpp](include/interpreter.hpp) | function declarations |
 | [errors.hpp](include/errors.hpp) | errors declarations, esc-colors for dumps|
 
+## Performance Analyzing
+If you want to test performance of `ToySim` on your device - you can run `run_benchmarks.sh`
+
+It runs `perf` and `hyperfine`, then stores the data in folders with the same names and creates a graph using `build_plot.py` which is stored in `images` dir.
+
+### Some Results
+
+| Big Switch | HashTable |
+|--------|-----|
+|![image1](./benchmarks/images/chart_20251024_190354_622493.png)| |
+
 ## TODO's
 
 | #   | Task                         | Description                                                                                                    | Status |
