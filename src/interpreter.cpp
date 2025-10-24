@@ -50,68 +50,9 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
 
         uint32_t opcode = commandObj.getOpcode();
         auto it = OPCODE_MAP.find(opcode);
-        // it->second(spu, commandObj);
-        // ON_DEBUG(spuDump(spu));
-        switch (it->first) {
-            case TOY_XOR:
-                callXOR(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-            case TOY_MOVN:
-                callMOVN(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
+        it->second(spu, commandObj);
+        ON_DEBUG(spuDump(spu));
 
-            case TOY_ADD:
-                callADD(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_SUBI:
-                callSUBI(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_JMP:
-                callJMP(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_BEQ:
-                callBEQ(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_SYSCALL:
-                callSYSCALL(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_LD:
-                callLD(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_LDP:
-                callLDP(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_CLS:
-                callCLS(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_RORI:
-                callRORI(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-
-            case TOY_ST:
-                callST(spu, commandObj);
-                ON_DEBUG(spuDump(spu));
-                break;
-        }
     }
 }
 
