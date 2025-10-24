@@ -2,3 +2,5 @@ build
 *.ansi
 *.bin
 *.data
+perf
+hyperfine

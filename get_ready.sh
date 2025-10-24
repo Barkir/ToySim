@@ -1,5 +1,10 @@
 #!/bin/bash
 
+mkdir -p benchmarks/hyperfine
+mkdir -p benchmarks/perf
+mkdir -p benchmarks/images
+
+mkdir -p
 mkdir build
 cd build
 cmake ..

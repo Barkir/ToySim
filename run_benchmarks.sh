@@ -7,6 +7,7 @@ NC='\033[0m'
 
 BENCH_DIR="./benchmarks"
 PERF_DIR="./benchmarks/perf"
+HYPERFINE_DIR="./benchmarks/hyperfine"
 
 echo -e "${YELLOW} Starting benchmarks from dir: ${BENCH_DIR} ${NC}"
 
@@ -18,9 +19,15 @@ run_benchmarks() {
     echo -e "${GREEN} starting: ${YELLOW} $bench_name$ ${NC}"
 
     perf record -g -o "$PERF_DIR/${bench_name}.data" -- ruby "$bench_file"
+    hyperfine --warmup 10 --min-runs 100 -i "ruby $bench_file" > "$HYPERFINE_DIR/$bench_name.hpf"
 
 }
 
 for bench_file in $bench_files; do
     run_benchmarks "$bench_file"
 done
+
+cd ./benchmarks
+python3 ./build_plot.py
+
+
