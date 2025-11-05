@@ -132,7 +132,7 @@ class Instruction {
     private:
         uint32_t command;
         uint32_t rd;
-        int32_t imm;
+        uint32_t imm;
         uint32_t rs1;
         uint32_t rs2;
 
