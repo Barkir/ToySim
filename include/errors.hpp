@@ -4,6 +4,14 @@ struct errorContext {
 
 };
 
+// #define DEBUG
+#ifdef DEBUG
+#define ON_DEBUG(code) code
+#else
+#define ON_DEBUG(code)
+#endif
+
+const size_t COMMAND_SIZE = 4;
 
 enum toyErrors {
     TOY_SUCCESS,

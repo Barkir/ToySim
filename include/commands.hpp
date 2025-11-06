@@ -4,12 +4,6 @@
 #include <vector>
 #include <functional>
 
-// #define DEBUG
-#ifdef DEBUG
-#define ON_DEBUG(code) code
-#else
-#define ON_DEBUG(code)
-#endif
 
 const size_t DEFAULT_MEMORY_SIZE = 1024;
 const size_t REG_SIZE = 32;
