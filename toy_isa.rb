@@ -237,7 +237,7 @@ class MicroAsm
 
     def run_binary(binary_filename="result.bin")
         absolute_path = File.expand_path(binary_filename)
-        system(TOY_SIM + "ToySim " + absolute_path)
+        system(TOY_SIM + "toy_interpreter " + absolute_path)
     end
 
     def translate_j(label_pc)

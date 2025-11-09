@@ -12,6 +12,7 @@
 
 #include "errors.hpp"
 #include "helper.hpp"
+#include "commands_jit.hpp"
 
 
 using namespace llvm;
@@ -22,6 +23,12 @@ ExitOnError ExitOnErr;
 ThreadSafeModule createDemoModule() {
     auto Context = std::make_unique<LLVMContext>();
     auto M = std::make_unique<Module>("test", *Context);
+
+    LLSPU SPU = {};
+    Function *mainF = Function::Create(FunctionType::get(Type::getInt32Ty(*Context)), {}, false);
+    ToyInstruction instr(352);
+    lljitXOR(instr, Context, mainF, SPU);
+
 }
 
 int main(int argc, char **argv) {
