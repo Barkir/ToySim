@@ -16,6 +16,10 @@ using namespace llvm;
 
 struct LLSPU {
     std::vector<Value*> regs;
+    uint32_t pc;
+    size_t cap;
+
+    LLSPU(size_t capIn) : cap(capIn), pc(0), regs({}) {}
 };
 
 void lljitXOR(ToyInstruction &command, LLVMContext &Ctx, Function *F, LLSPU &SPU);
