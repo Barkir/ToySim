@@ -4,7 +4,6 @@
 #include <vector>
 #include <functional>
 
-
 const size_t DEFAULT_MEMORY_SIZE = 1024;
 const size_t REG_SIZE = 32;
 const size_t IMM_SIZE = 16;
@@ -13,26 +12,6 @@ const size_t LDP_OFFSET_SIZE = 11;
 const size_t LD_OFFSET_SIZE  = 16;
 const size_t ST_OFFSET_SIZE  = 16;
 const size_t PC_INC = 4;
-
-enum commandHelpers {
-    FIRST_REG           = 1,
-    SECOND_REG          = 2,
-    THIRD_REG           = 3,
-    UNKNOWN_REG         = -1,
-    OPCODE_MASK         = 0x3F,
-    REG_MASK            = 0x1F,
-    FIRST_ARG_OFFSET    = 21,
-    SECOND_ARG_OFFSET   = 16,
-    THIRD_ARG_OFFSET    = 11,
-    OPCODE_OFFSET       = 26,
-    JMP_OFFSET          = 0x3FFFFFF,
-    IMM_OFFSET          = 0xFFFF,
-    BEQ_OFFSET          = 0xFFFF,
-    LDP_OFFSET          = 0x7FF,
-    LD_OFFSET           = 0xFFFF,
-    ST_OFFSET           = 0xFFFF
-
-};
 
 enum toyCommands {
     TOY_JMP     =0b010111,
@@ -52,7 +31,6 @@ enum toyCommands {
 
     TOY_WRONG_OPCODE=-1
 };
-
 
 enum toyRegs {
     TOY_R0 = 0,
@@ -117,89 +95,29 @@ struct SPU {
 
     MemorySPU memory; // class for memory
 
-
     SPU(size_t capIn) : memory(capIn), cap(capIn), pc(0), regs({}) {} // constructor
 
 };
 
-class Instruction {
-    private:
-        uint32_t command;
-        uint32_t rd;
-        uint32_t imm;
-        uint32_t rs1;
-        uint32_t rs2;
-
-    public: // constructor
-        Instruction(uint32_t commandIn) : command(commandIn) {}
-
-    public: // get functions
-
-        uint32_t getFirstReg()    {
-            rd = command >> FIRST_ARG_OFFSET  & REG_MASK;
-            return rd;
-        }
-
-        uint32_t getSecondReg() {
-            rs1 = command >> SECOND_ARG_OFFSET  & REG_MASK;
-            return rs1;
-        }
-
-        uint32_t getThirdReg() {
-            rs2 = command >> THIRD_ARG_OFFSET  & REG_MASK;
-            return rs2;
-        }
-
-        int32_t getImm() {
-            imm = command & IMM_OFFSET;
-            return imm;
-        }
-
-        int32_t getJmpOffset() {
-            return command & JMP_OFFSET;
-        }
-
-        int32_t getBeqOffset() {
-            return command & BEQ_OFFSET;
-        }
-
-        int32_t getLdpOffset() {
-            return command & LDP_OFFSET;
-        }
-
-        int32_t getLdOffset() {
-            return command & LD_OFFSET;
-        }
-
-        int32_t getStOffset() {
-            return command & ST_OFFSET;
-        }
-
-    public: // special functions
-        uint32_t getOpcode();
-};
-
-
-
 void spuDump(SPU& spu);
 void commandDump(std::string commandName, uint32_t command);
 
-void callADD    (SPU& spu,      Instruction command);
-void callXOR    (SPU& spu,      Instruction command);
-void callMOVN   (SPU& spu,      Instruction command);
-void callSYSCALL(SPU& spu,      Instruction command);
-void callSUBI   (SPU& spu,      Instruction command);
-void callJMP    (SPU& spu,      Instruction command);
-void callBEQ    (SPU& spu,      Instruction command);
-void callLD     (SPU& spu,      Instruction command);
-void callLDP    (SPU& spu,      Instruction command);
-void callBEXT   (SPU& spu,      Instruction command);
-void callCBIT   (SPU& spu,      Instruction command);
-void callST     (SPU& spu,      Instruction command);
-void callRORI   (SPU& spu,      Instruction command);
-void callCLS    (SPU& spu,      Instruction command);
+void callADD    (SPU& spu,      ToyInstruction command);
+void callXOR    (SPU& spu,      ToyInstruction command);
+void callMOVN   (SPU& spu,      ToyInstruction command);
+void callSYSCALL(SPU& spu,      ToyInstruction command);
+void callSUBI   (SPU& spu,      ToyInstruction command);
+void callJMP    (SPU& spu,      ToyInstruction command);
+void callBEQ    (SPU& spu,      ToyInstruction command);
+void callLD     (SPU& spu,      ToyInstruction command);
+void callLDP    (SPU& spu,      ToyInstruction command);
+void callBEXT   (SPU& spu,      ToyInstruction command);
+void callCBIT   (SPU& spu,      ToyInstruction command);
+void callST     (SPU& spu,      ToyInstruction command);
+void callRORI   (SPU& spu,      ToyInstruction command);
+void callCLS    (SPU& spu,      ToyInstruction command);
 
-using funcIt = std::function<void (SPU& spu, Instruction)>;
+using funcIt = std::function<void (SPU& spu, ToyInstruction)>;
 static const std::unordered_map<uint32_t, funcIt> OPCODE_MAP {
     {TOY_JMP,       callJMP         },
     {TOY_CBIT,      callCBIT        },

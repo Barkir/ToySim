@@ -2,9 +2,12 @@
 #include <iostream>
 #include <bitset>
 #include <cstring>
+#include <vector>
 
-#include "commands.hpp"
 #include "errors.hpp"
+#include "helper.hpp"
+#include "commands.hpp"
+
 
 uint32_t swapEndian(uint32_t value) {
     return __builtin_bswap32(value);
@@ -47,7 +50,7 @@ void spuDump(SPU& spu) {
 }
 
 
-void callXOR(SPU& spu, Instruction command) {
+void callXOR(SPU& spu, ToyInstruction command) {
 
     uint32_t rs = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
     uint32_t rt = command.getSecondReg(); ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
@@ -61,7 +64,7 @@ void callXOR(SPU& spu, Instruction command) {
     // pc, next_pc
 }
 
-void callMOVN(SPU& spu, Instruction command) {
+void callMOVN(SPU& spu, ToyInstruction command) {
 
     uint32_t rs = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
     uint32_t rt = command.getSecondReg(); ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
@@ -75,7 +78,7 @@ void callMOVN(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callADD(SPU& spu, Instruction command) {
+void callADD(SPU& spu, ToyInstruction command) {
 
     uint32_t rs = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
     uint32_t rt = command.getSecondReg(); ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
@@ -86,7 +89,7 @@ void callADD(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callSYSCALL(SPU& spu, Instruction command) {
+void callSYSCALL(SPU& spu, ToyInstruction command) {
     switch (spu.regs[TOY_R8]) {
         case TOY_PRINT:
             std::cout << spu.regs[TOY_R1] << "\n";
@@ -101,7 +104,7 @@ void callSYSCALL(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callSUBI(SPU& spu, Instruction command) {
+void callSUBI(SPU& spu, ToyInstruction command) {
 
     uint32_t rs = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
     uint32_t rt = command.getSecondReg(); ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
@@ -112,13 +115,13 @@ void callSUBI(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callJMP(SPU& spu, Instruction command) {
+void callJMP(SPU& spu, ToyInstruction command) {
 
     int16_t offset = command.getJmpOffset(); ON_DEBUG(fprintf(stdout, GREEN "\t offset = %d\n" RESET, offset));
     spu.pc = spu.pc + offset;
 }
 
-void callBEQ(SPU& spu, Instruction command) {
+void callBEQ(SPU& spu, ToyInstruction command) {
 
     uint32_t rs = command.getFirstReg();      ON_DEBUG(fprintf(stdout, GREEN "\t rs = %d; ", rs));
     uint32_t rt = command.getSecondReg();     ON_DEBUG(fprintf(stdout, "rt = %d; ",         rt));
@@ -139,7 +142,7 @@ int32_t cbit(int32_t value, uint32_t offset) {
     return value & ~(1 << (offset));
 }
 
-void callCBIT(SPU& spu, Instruction command) {
+void callCBIT(SPU& spu, ToyInstruction command) {
 
     uint32_t rd = command.getFirstReg();      ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
     uint32_t rs = command.getSecondReg();     ON_DEBUG(fprintf(stdout, "rs = %d; ",         rs));
@@ -168,7 +171,7 @@ int32_t bext(int32_t rs1, int32_t rs2) {
     return result;
 }
 
-void callBEXT(SPU& spu, Instruction command) {
+void callBEXT(SPU& spu, ToyInstruction command) {
 
     uint32_t rd  = command.getFirstReg();     ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
     uint32_t rs1 = command.getSecondReg();    ON_DEBUG(fprintf(stdout, "rs1 = %d; ",         rs1));
@@ -180,7 +183,7 @@ void callBEXT(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callLDP(SPU& spu, Instruction command) {
+void callLDP(SPU& spu, ToyInstruction command) {
 
     uint32_t base   = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
     uint32_t rt1    = command.getSecondReg();    ON_DEBUG(fprintf(stdout, "rt1 = %d; ",         rt1));
@@ -196,7 +199,7 @@ void callLDP(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callLD(SPU& spu, Instruction command) {
+void callLD(SPU& spu, ToyInstruction command) {
 
     uint32_t base = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
     uint32_t rt = command.getSecondReg();     ON_DEBUG(fprintf(stdout, "rt1 = %d; ",         rt));
@@ -216,7 +219,7 @@ uint32_t cls(int32_t rs) {
     return result;
 }
 
-void callCLS(SPU& spu, Instruction command) {
+void callCLS(SPU& spu, ToyInstruction command) {
     uint32_t rd = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
     uint32_t rs = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rs = %d\n" RESET, rs));
 
@@ -229,7 +232,7 @@ uint32_t rori(int32_t value, int32_t shift) {
     return (value >> (shift & 0x1F)) | (value << ((32 - shift) & 0x1F));
 }
 
-void callRORI(SPU& spu, Instruction command) {
+void callRORI(SPU& spu, ToyInstruction command) {
     uint32_t rd = command.getFirstReg();    ON_DEBUG(fprintf(stdout, GREEN "\t rd = %d; ", rd));
     uint32_t rs = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rs = %d; ", rs));
     int32_t imm5 = command.getThirdReg();   ON_DEBUG(fprintf(stdout, "imm5 = %d\n" RESET,  imm5));
@@ -239,7 +242,7 @@ void callRORI(SPU& spu, Instruction command) {
     spu.pc += PC_INC;
 }
 
-void callST(SPU& spu, Instruction command) {
+void callST(SPU& spu, ToyInstruction command) {
     uint32_t base = command.getFirstReg();  ON_DEBUG(fprintf(stdout, GREEN "\t base = %d; ", base));
     uint32_t rt = command.getSecondReg();   ON_DEBUG(fprintf(stdout, "rt = %d; ", rt));
     int32_t offset = command.getStOffset(); ON_DEBUG(fprintf(stdout, "offset = %d\n" RESET, offset));
@@ -251,7 +254,7 @@ void callST(SPU& spu, Instruction command) {
 
 // ------------------------------------------------------#
 
-uint32_t Instruction::getOpcode() {
+uint32_t ToyInstruction::getOpcode() {
 
     // uint32 contains data in little-endian, i need to read these bytes
     // in big-endian

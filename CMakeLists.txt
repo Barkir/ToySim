@@ -16,6 +16,7 @@ set(INTERPRETER_SOURCES
 )
 
 set(JIT_SOURCES
+    src/commands_jit.cpp
     src/jit.cpp
     src/helper.cpp
 )

@@ -6,9 +6,9 @@
 #include <cstring>
 
 #include "errors.hpp"
+#include "helper.hpp"
 #include "interpreter.hpp"
 #include "commands.hpp"
-#include "helper.hpp"
 
 const std::string filename = "../result.bin";
 
@@ -46,7 +46,7 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
     while (spu.pc < cm_sz) {
 
         auto command = getCommand(commands_1byte, spu.pc);
-        Instruction commandObj(command);
+        ToyInstruction commandObj(command);
 
         uint32_t opcode = commandObj.getOpcode();
         auto it = OPCODE_MAP.find(opcode);
