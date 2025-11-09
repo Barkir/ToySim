@@ -1,33 +1,39 @@
-#include "llvm/ADT/STLExtras.h"
 #include "llvm/ExecutionEngine/Orc/LLJIT.h"
-#include "llvm/IR/Constants.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
-#include "llvm/IR/Verifier.h"
+#include "llvm/Support/InitLLVM.h"
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Support/raw_ostream.h"
-#include <iostream>
+#include "llvm/Support/CommandLine.h"
 
+
+
+#include <iostream>
 #include "errors.hpp"
 #include "helper.hpp"
 
-int main() {
-    llvm::InitializeNativeTarget();
-    llvm::InitializeNativeTargetAsmPrinter();
-    llvm::InitializeNativeTargetAsmParser();
+using namespace llvm;
+using namespace llvm::orc;
 
-    auto jit = llvm::orc::LLJITBuilder().create();
-    if (!jit) {
-        llvm::errs() << "FAIL! JIT NOT CREATED: " << jit.takeError() << "\n";
-    }
+ExitOnError ExitOnErr;
 
-    auto context = std::make_unique<llvm::LLVMContext>();
-    auto module = std::make_unique<llvm::Module>("jit_module", *context);
-
+ThreadSafeModule createDemoModule() {
+    auto Context = std::make_unique<LLVMContext>();
+    auto M = std::make_unique<Module>("test", *Context);
 }
 
-void translateBytecode(llvm::orc::LLJIT& jit, const std::vector<uint8_t> commands, size_t pc) {
+int main(int argc, char **argv) {
+    InitLLVM X(argc, argv);
+
+    InitializeNativeTarget();
+    InitializeNativeTargetAsmPrinter();
+
+    cl::ParseCommandLineOptions(argc, argv, "whatever");
+    ExitOnErr.setBanner(std::string(argv[0]) + ": ");
+
+    auto J = ExitOnErr(LLJITBuilder().create());
+    auto M = createDemoModule();
+    ExitOnErr(J->addIRModule(std::move(M)));
 
 }
