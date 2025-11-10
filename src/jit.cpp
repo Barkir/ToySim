@@ -27,7 +27,7 @@ uint32_t getCommand(const std::vector<uint8_t> commands, size_t pc) {
     return command;
 }
 
-ThreadSafeModule createDemoModule(const std::vector<uin32_t> &commands, size_t fsize) {
+ThreadSafeModule createDemoModule(const std::vector<uint32_t> &commands, size_t fsize) {
 
 
     std::vector<uint8_t>  commands_1byte(commands.size() * sizeof(uint32_t));
@@ -39,18 +39,28 @@ ThreadSafeModule createDemoModule(const std::vector<uin32_t> &commands, size_t f
     LLSPU spu(fsize);
     Function *mainF = Function::Create(FunctionType::get(Type::getInt32Ty(*Context), {}, false), Function::ExternalLinkage,
                                         "main", M.get());
+    BasicBlock *BB = BasicBlock::Create(*Context, "entryAF", mainF);
+    IRBuilder<> builder(BB);
 
-    size_t cm_sz = commands_1byte.size()
+    size_t cm_sz = commands_1byte.size();
     while (spu.pc < cm_sz) {
         auto command = getCommand(commands_1byte, spu.pc);
         ToyInstruction commandObj(command);
 
+        std::cerr << spu.pc << " vs " << cm_sz << "\n";
         uint32_t opcode = commandObj.getOpcode();
 
+        switch (opcode) {
+            case TOY_XOR:
+                lljitXOR(commandObj, spu, *Context, mainF);
+                break;
+        }
     }
+    fprintf(stderr, "IN THE END\n");
+    Value *Zero = builder.getInt32(1);
+    builder.CreateRet(Zero);
 
-
-
+    return ThreadSafeModule(std::move(M), std::move(Context));
 }
 
 int main(int argc, char **argv) {
@@ -61,7 +71,7 @@ int main(int argc, char **argv) {
         std::vector<uint32_t> commands;
         size_t fsize = 0;
         if (get_commands(&commands, filename, &fsize)) {
-            return TOY_FAILED:
+            return TOY_FAILED;
         }
 
         InitLLVM X(argc, argv);
@@ -69,12 +79,11 @@ int main(int argc, char **argv) {
         InitializeNativeTarget();
         InitializeNativeTargetAsmPrinter();
 
-        cl::ParseCommandLineOptions(argc, argv, "whatever");
-        ExitOnErr.setBanner(std::string(argv[0]) + ": ");
+        // cl::ParseCommandLineOptions(argc, argv, "whatever");
+        // ExitOnErr.setBanner(std::string(argv[0]) + ": ");
 
         auto J = ExitOnErr(LLJITBuilder().create());
         auto M = createDemoModule(commands, fsize);
         ExitOnErr(J->addIRModule(std::move(M)));
     }
-
 }
