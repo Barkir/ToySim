@@ -112,6 +112,11 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
                 callST(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
+
+            case TOY_CBIT:
+                callCBIT(spu, commandObj);
+                ON_DEBUG(spuDump(spu));
+                break;
         }
 
 

@@ -24,7 +24,10 @@ Value* LoadToReg(int numReg, LLSPU& spu, LLVMContext &Ctx) {
         spu.regs[numReg] = spu.Builder.CreateAlloca(Type::getInt32Ty(Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
         Value *zero = spu.Builder.getInt32(0);
         spu.Builder.CreateStore(zero, spu.regs[numReg]);
+    } else if (spu.ssaMap.find(numReg) != spu.ssaMap.end()) {
+        return spu.ssaMap[numReg];
     }
+
 
     Value *retVal = spu.Builder.CreateLoad(Type::getInt32Ty(Ctx), spu.regs[numReg], "r" + std::to_string(spu.regCounter++));
     spu.ssaMap[numReg] = retVal;
@@ -48,6 +51,12 @@ Value *CreateCbitToReg(int numReg, Value *rs, Value *offset, LLSPU& spu) {
     return secondOp;
 }
 
+Value *CreateSubToReg(int numReg, Value *rs, Value *imm, LLSPU& spu) {
+    Value *retVal = spu.Builder.CreateSub(rs, imm, "r" + std::to_string(spu.regCounter++));
+    spu.ssaMap[numReg] = retVal;
+    return retVal;
+}
+
 void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
 
     Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
@@ -61,6 +70,14 @@ void lljitCBIT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
     Value *RsVal = LoadToReg(command.getSecondReg(), SPU, Ctx);
     Value *Imm5  = SPU.Builder.getInt32(command.getThirdReg());
     Value *Rd    = CreateCbitToReg(command.getFirstReg(), RsVal, Imm5, SPU);
+
+    SPU.pc += PC_INC;
+}
+
+void lljitSUBI(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
+    Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
+    Value *Imm   = SPU.Builder.getInt32(command.getImm());
+    Value * rt   = CreateSubToReg(command.getSecondReg(), RsVal, Imm, SPU);
 
     SPU.pc += PC_INC;
 }
