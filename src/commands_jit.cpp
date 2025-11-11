@@ -6,6 +6,7 @@
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Constant.h"
 
 #include <iostream>
 
@@ -15,6 +16,29 @@
 
 using namespace llvm;
 using namespace llvm::orc;
+
+
+
+Value* LoadToReg(int numReg, LLSPU& spu, LLVMContext &Ctx) {
+    if (spu.regs[numReg] == nullptr) {
+        spu.regs[numReg] = spu.Builder.CreateAlloca(Type::getInt32Ty(Ctx), nullptr, "r" + std::to_string(spu.regCounter));
+        Constant* constInt32 = ConstantInt::get(Type::getInt32Ty(Ctx), 0);
+        spu.Builder.CreateStore(constInt32, spu.regs[numReg]);
+        spu.regCounter++;
+    }
+
+    Value *retVal = spu.Builder.CreateLoad(Type::getInt32Ty(Ctx), spu.regs[numReg], "r" + std::to_string(spu.regCounter));
+    spu.ssaMap[numReg] = retVal;
+    spu.regCounter++;
+    return retVal;
+}
+
+Value *CreateXorToReg(int numReg, Value *r1, Value *r2, LLSPU& spu) {
+    Value *retVal = spu.Builder.CreateXor(r1, r2, "r" + std::to_string(spu.regCounter));
+    spu.ssaMap[numReg] = retVal;
+    spu.regCounter++;
+    return retVal;
+}
 
 void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx, Function *F) {
     BasicBlock *BB = &F->getEntryBlock();
@@ -26,11 +50,15 @@ void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx, Function *F
         Builder.SetInsertPoint(&BB->back());
     }
 
-    Value *RsVal = Builder.CreateLoad(Type::getInt32Ty(Ctx), SPU.regs[command.getFirstReg()], "rs_val");
-    Value *RtVal = Builder.CreateLoad(Type::getInt32Ty(Ctx), SPU.regs[command.getSecondReg()], "rt_val");
-    Value *XorResult = Builder.CreateXor(RsVal, RtVal, "xor_tmp");
-    Builder.CreateStore(XorResult, SPU.regs[command.getThirdReg()]);
+    Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
+    Value *RtVal = LoadToReg(command.getSecondReg(), SPU, Ctx);
+    Value *RdVal = CreateXorToReg(command.getThirdReg(), RsVal, RtVal, SPU);
+
     SPU.pc += PC_INC;
+}
+
+void lljitCBIT(ToyInstruction &commands, LLSPU &SPU, LLVMContext &Ctx, Function *F) {
+
 }
 
 // ----------------------------------------------------------#

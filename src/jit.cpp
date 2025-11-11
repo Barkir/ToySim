@@ -36,11 +36,11 @@ ThreadSafeModule createDemoModule(const std::vector<uint32_t> &commands, size_t 
     auto Context = std::make_unique<LLVMContext>();
     auto M = std::make_unique<Module>("test", *Context);
 
-    LLSPU spu(fsize);
     Function *mainF = Function::Create(FunctionType::get(Type::getInt32Ty(*Context), {}, false), Function::ExternalLinkage,
                                         "main", M.get());
     BasicBlock *BB = BasicBlock::Create(*Context, "entryAF", mainF);
     IRBuilder<> builder(BB);
+    LLSPU spu(fsize, Context, builder);
 
     size_t cm_sz = commands_1byte.size();
     while (spu.pc < cm_sz) {
@@ -57,13 +57,18 @@ ThreadSafeModule createDemoModule(const std::vector<uint32_t> &commands, size_t 
         }
     }
     fprintf(stderr, "IN THE END\n");
-    Value *Zero = builder.getInt32(1);
+    Value *Zero = builder.getInt32(0);
     builder.CreateRet(Zero);
 
+    outs() << *mainF;
     return ThreadSafeModule(std::move(M), std::move(Context));
 }
 
 int main(int argc, char **argv) {
+    std::vector<std::string> original_args;
+    for (int i = 0; i < argc; ++i) {
+        original_args.push_back(argv[i]);
+    }
 
     if  (argc >= 2) {
 
@@ -78,6 +83,8 @@ int main(int argc, char **argv) {
 
         InitializeNativeTarget();
         InitializeNativeTargetAsmPrinter();
+
+        // std::string output_filename = "output_" + dyn_cast<std::string>(argv[1]) + ".ll";
 
         // cl::ParseCommandLineOptions(argc, argv, "whatever");
         // ExitOnErr.setBanner(std::string(argv[0]) + ": ");
