@@ -6,8 +6,8 @@
 #include <cstring>
 
 #include "errors.hpp"
-#include "helper.hpp"
 #include "interpreter.hpp"
+#include "helper.hpp"
 #include "commands.hpp"
 
 const std::string filename = "../result.bin";

@@ -9,6 +9,8 @@ include_directories(${LLVM_INCLUDE_DIRS} include)
 add_definitions(${LLVM_DEFINITIONS})
 
 
+# add_library(common STATIC include/helper.hpp)
+
 set(INTERPRETER_SOURCES
     src/interpreter.cpp
     src/commands.cpp
@@ -20,6 +22,7 @@ set(JIT_SOURCES
     src/jit.cpp
     src/helper.cpp
 )
+
 
 add_executable(toy_interpreter ${INTERPRETER_SOURCES})
 add_executable(toy_jit ${JIT_SOURCES})

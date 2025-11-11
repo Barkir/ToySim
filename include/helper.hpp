@@ -1,11 +1,43 @@
 #pragma once
 
-enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& filename, size_t *fsz);
-size_t getFileSize(std::ifstream& file);
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cstdint>
+#include <bitset>
+#include <cstring>
 
+#include "errors.hpp"
 
 template<typename T>
-void hexDump(const std::vector<T>& buffer);
+void hexDump(const std::vector<T>& buffer) {
+    fprintf(stdout, RED "╔═══════════════════════════════════╗\n" RESET);
+    fprintf(stdout, RED "║" GREEN "  ▁▂▃▄▅▆▇▉ HEX DUMP ▉▇▆▅▄▃▂▁  " RED "║\n" RESET);
+    fprintf(stdout, RED "╚═══════════════════════════════════╝\n" RESET);
+
+    const unsigned char* rawData = reinterpret_cast<const unsigned char*>(buffer.data());
+    size_t totalBytes = buffer.size() * sizeof(T);
+
+    int cnt = 0;
+    for (size_t i = 0; i < totalBytes; i++) {
+        if (cnt % 4 == 0) {
+            fprintf(stdout, CYAN "\n  0x%02X → " RESET, cnt / 4);
+        }
+        fprintf(stdout, MAGENTA "%02X " RESET, rawData[i]);
+        cnt++;
+    }
+
+    fprintf(stdout, YELLOW "\n\n╔═══════════════════════════════════╗\n" RESET);
+    fprintf(stdout, YELLOW "║" BLUE "    Items: %3zu | Bytes: %3zu    " YELLOW "║\n" RESET, buffer.size(), totalBytes);
+    fprintf(stdout, YELLOW "╚═══════════════════════════════════╝\n" RESET);
+}
+
+size_t getFileSize(std::ifstream& file);
+enum toyErrors get_commands(std::vector<uint32_t> *commands, const std::string& filename, size_t *fsz);
+
+// -----------------------------------------------------------------------------------------------
+
+
 
 enum commandHelpers {
     FIRST_REG           = 1,

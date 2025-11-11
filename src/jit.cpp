@@ -26,6 +26,21 @@ uint32_t getCommand(const std::vector<uint8_t> commands, size_t pc) {
     memcpy(&command, &commands[pc], 4);
     return command;
 }
+// this function is not working correct for all cases
+// it is createad for better architecture in the future
+// now all of the instructions are in the same basic block (cuz im bad at writing branches 4now)
+BasicBlock* setCurrentBasicBlock(LLSPU& spu, Function *F) {
+    spu.curBlock = &F->getEntryBlock();
+    return spu.curBlock;
+}
+
+void setInsertPoint(LLSPU& spu) {
+    if (spu.curBlock->empty()) {
+        spu.Builder.SetInsertPoint(spu.curBlock);
+    } else {
+        spu.Builder.SetInsertPoint(&spu.curBlock->back());
+    }
+}
 
 ThreadSafeModule createDemoModule(const std::vector<uint32_t> &commands, size_t fsize) {
 
@@ -50,9 +65,12 @@ ThreadSafeModule createDemoModule(const std::vector<uint32_t> &commands, size_t 
         std::cerr << spu.pc << " vs " << cm_sz << "\n";
         uint32_t opcode = commandObj.getOpcode();
 
+        setCurrentBasicBlock(spu, mainF);
+        setInsertPoint(spu);
+
         switch (opcode) {
             case TOY_XOR:
-                lljitXOR(commandObj, spu, *Context, mainF);
+                lljitXOR(commandObj, spu, *Context);
                 break;
         }
     }

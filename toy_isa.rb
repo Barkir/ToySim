@@ -237,6 +237,7 @@ class MicroAsm
 
     def run_binary(binary_filename="result.bin")
         absolute_path = File.expand_path(binary_filename)
+        print absolute_path
         system(TOY_SIM + "toy_interpreter " + absolute_path)
     end
 
@@ -257,7 +258,6 @@ class MicroAsm
     def translate_cbit(operands)
         rd, rs, imm5 = operands
         opcode = INSTRUCTION_SET["CBIT"]
-
         (opcode << 26) | (rd << 21) | (rs << 16) | (imm5 << 11) | 0
     end
 

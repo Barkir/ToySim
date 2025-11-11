@@ -272,11 +272,11 @@ uint32_t ToyInstruction::getOpcode() {
     auto it2 = OPCODE_MAP.find(opcode2);
 
     if (it1 != OPCODE_MAP.end()) {
-        ON_DEBUG(commandDump(it1->second, command));
+        // ON_DEBUG(commandDump(it1->second, command));
         return it1->first;
     }
     else if (it2 != OPCODE_MAP.end()) {
-        ON_DEBUG(commandDump(it2->second, command));
+        // ON_DEBUG(commandDump(it2->second, command));
         return it2->first;
     }
 

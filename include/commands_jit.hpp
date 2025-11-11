@@ -31,6 +31,7 @@ struct LLSPU {
     public: // llvm-referred
         std::unique_ptr<LLVMContext>& Ctx;
         IRBuilder<>& Builder;
+        BasicBlock* curBlock;
 
     public: // constructror
         LLSPU(size_t capIn, std::unique_ptr<LLVMContext>& CtxIn, IRBuilder<>& BuilderIn) : cap(capIn), Ctx(CtxIn), pc(0),
@@ -40,9 +41,11 @@ struct LLSPU {
 
 };
 
-void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx, Function *F);
+void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx);
+void lljitCBIT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx);
 
-using funcIt = std::function<void (ToyInstruction&, LLSPU&, LLVMContext&, Function*)>;
+using funcIt = std::function<void (ToyInstruction&, LLSPU&, LLVMContext&)>;
 static const std::unordered_map<uint32_t, funcIt> OPCODE_LLMAP {
-    {TOY_XOR,       lljitXOR         }
+    {TOY_XOR,       lljitXOR         },
+    {TOY_CBIT,      lljitCBIT        }
 };

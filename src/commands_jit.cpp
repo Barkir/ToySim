@@ -21,34 +21,34 @@ using namespace llvm::orc;
 
 Value* LoadToReg(int numReg, LLSPU& spu, LLVMContext &Ctx) {
     if (spu.regs[numReg] == nullptr) {
-        spu.regs[numReg] = spu.Builder.CreateAlloca(Type::getInt32Ty(Ctx), nullptr, "r" + std::to_string(spu.regCounter));
-        Constant* constInt32 = ConstantInt::get(Type::getInt32Ty(Ctx), 0);
-        spu.Builder.CreateStore(constInt32, spu.regs[numReg]);
-        spu.regCounter++;
+        spu.regs[numReg] = spu.Builder.CreateAlloca(Type::getInt32Ty(Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
+        Value *zero = spu.Builder.getInt32(0);
+        spu.Builder.CreateStore(zero, spu.regs[numReg]);
     }
 
-    Value *retVal = spu.Builder.CreateLoad(Type::getInt32Ty(Ctx), spu.regs[numReg], "r" + std::to_string(spu.regCounter));
+    Value *retVal = spu.Builder.CreateLoad(Type::getInt32Ty(Ctx), spu.regs[numReg], "r" + std::to_string(spu.regCounter++));
     spu.ssaMap[numReg] = retVal;
-    spu.regCounter++;
+
     return retVal;
 }
 
 Value *CreateXorToReg(int numReg, Value *r1, Value *r2, LLSPU& spu) {
-    Value *retVal = spu.Builder.CreateXor(r1, r2, "r" + std::to_string(spu.regCounter));
+    Value *retVal = spu.Builder.CreateXor(r1, r2, "r" + std::to_string(spu.regCounter++));
     spu.ssaMap[numReg] = retVal;
-    spu.regCounter++;
+
     return retVal;
 }
 
-void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx, Function *F) {
-    BasicBlock *BB = &F->getEntryBlock();
-    IRBuilder<> Builder(BB);
+Value *CreateCbitToReg(int numReg, Value *rs, Value *offset, LLSPU& spu) {
+    Value *one = spu.Builder.getInt32(1);
+    Value *firstOp = spu.Builder.CreateShl(one, offset, "r" + std::to_string(spu.regCounter++));
+    Value *secondOp = spu.Builder.CreateAnd(firstOp, rs, "r" + std::to_string(spu.regCounter++));
+    spu.ssaMap[numReg] = secondOp;
 
-    if (BB->empty()) {
-        Builder.SetInsertPoint(BB);
-    } else {
-        Builder.SetInsertPoint(&BB->back());
-    }
+    return secondOp;
+}
+
+void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
 
     Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
     Value *RtVal = LoadToReg(command.getSecondReg(), SPU, Ctx);
@@ -57,8 +57,12 @@ void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx, Function *F
     SPU.pc += PC_INC;
 }
 
-void lljitCBIT(ToyInstruction &commands, LLSPU &SPU, LLVMContext &Ctx, Function *F) {
+void lljitCBIT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
+    Value *RsVal = LoadToReg(command.getSecondReg(), SPU, Ctx);
+    Value *Imm5  = SPU.Builder.getInt32(command.getThirdReg());
+    Value *Rd    = CreateCbitToReg(command.getFirstReg(), RsVal, Imm5, SPU);
 
+    SPU.pc += PC_INC;
 }
 
 // ----------------------------------------------------------#
@@ -75,11 +79,11 @@ uint32_t ToyInstruction::getOpcode() {
     auto it2 = OPCODE_LLMAP.find(opcode2);
 
     if (it1 != OPCODE_LLMAP.end()) {
-        ON_DEBUG(commandDump(it1->second, command));
+        // ON_DEBUG(commandDump(it1->second, command));
         return it1->first;
     }
     else if (it2 != OPCODE_LLMAP.end()) {
-        ON_DEBUG(commandDump(it2->second, command));
+        // ON_DEBUG(commandDump(it2->second, command));
         return it2->first;
     }
 
