@@ -74,9 +74,15 @@ ThreadSafeModule createDemoModule(const std::vector<uint32_t> &commands, size_t 
                 break;
             case TOY_CBIT:
                 lljitXOR(commandObj, spu, *Context);
+                break;
 
             case TOY_SUBI:
                 lljitSUBI(commandObj, spu, *Context);
+                break;
+
+            case TOY_MOVN:
+                lljitMOVN(commandObj, spu, *Context);
+                break;
         }
     }
     fprintf(stderr, "IN THE END\n");

@@ -44,10 +44,13 @@ struct LLSPU {
 void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx);
 void lljitCBIT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx);
 void lljitSUBI(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx);
+void lljitMOVN(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx);
 
 using funcIt = std::function<void (ToyInstruction&, LLSPU&, LLVMContext&)>;
 static const std::unordered_map<uint32_t, funcIt> OPCODE_LLMAP {
     {TOY_XOR,       lljitXOR         },
     {TOY_CBIT,      lljitCBIT        },
-    {TOY_SUBI,      lljitSUBI        }
+    {TOY_SUBI,      lljitSUBI        },
+    {TOY_MOVN,      lljitMOVN        }
+
 };

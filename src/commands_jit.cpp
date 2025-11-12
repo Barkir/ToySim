@@ -57,6 +57,15 @@ Value *CreateSubToReg(int numReg, Value *rs, Value *imm, LLSPU& spu) {
     return retVal;
 }
 
+Value *CreateMovnToReg(int numReg, Value *rd, Value *rs, Value *rt, LLSPU& spu) {
+    Value *zero = spu.Builder.getInt32(0);
+    Value *icmp = spu.Builder.CreateICmpEQ(zero, rt);
+    Value *retVal = spu.Builder.CreateSelect(icmp, rd, rs);
+    spu.ssaMap[numReg] = retVal;
+    return retVal;
+}
+
+
 void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
 
     Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
@@ -78,6 +87,15 @@ void lljitSUBI(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
     Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
     Value *Imm   = SPU.Builder.getInt32(command.getImm());
     Value * rt   = CreateSubToReg(command.getSecondReg(), RsVal, Imm, SPU);
+
+    SPU.pc += PC_INC;
+}
+
+void lljitMOVN(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
+    Value *RsVal = LoadToReg(command.getFirstReg(), SPU, Ctx);
+    Value *RtVal = LoadToReg(command.getSecondReg(), SPU, Ctx);
+    Value *RdVal = LoadToReg(command.getThirdReg(), SPU, Ctx);
+    Value *Result = CreateMovnToReg(command.getThirdReg(), RdVal, RsVal, RtVal, SPU);
 
     SPU.pc += PC_INC;
 }
