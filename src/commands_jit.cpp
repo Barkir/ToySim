@@ -59,10 +59,21 @@ Value *CreateSubToReg(int numReg, Value *rs, Value *imm, LLSPU& spu) {
 
 Value *CreateMovnToReg(int numReg, Value *rd, Value *rs, Value *rt, LLSPU& spu) {
     Value *zero = spu.Builder.getInt32(0);
-    Value *icmp = spu.Builder.CreateICmpEQ(zero, rt);
-    Value *retVal = spu.Builder.CreateSelect(icmp, rd, rs);
+    Value *icmp = spu.Builder.CreateICmpEQ(zero, rt, "icmp" + std::to_string(spu.regCounter));
+    Value *retVal = spu.Builder.CreateSelect(icmp, rd, rs, "select" + std::to_string(spu.regCounter++));
     spu.ssaMap[numReg] = retVal;
     return retVal;
+}
+
+Value *CreateBextReg(int numReg, Value *rs1, Value *rs2, LLSPU &spu) {
+    Value *REG_ALLOCA = spu.Builder.CreateAlloca(Type::getInt32Ty(spu.Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
+    Value *StoreReg   = spu.Builder.CreateStore(spu.Builder.getInt32(32), REG_ALLOCA);
+
+    Value *I_ALLOCA = spu.Builder.CreateAlloca(Type::getInt32Ty(spu.Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
+    Value *StoreReg   = spu.Builder.CreateStore(spu.Builder.getInt32(0), REG_ALLOCA);
+
+    BasicBlock *cycle = BasicBlock::Create(ctx, "BextCycle" + std::to_string(spu.regCounter++));
+
 }
 
 
@@ -98,6 +109,12 @@ void lljitMOVN(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
     Value *Result = CreateMovnToReg(command.getThirdReg(), RdVal, RsVal, RtVal, SPU);
 
     SPU.pc += PC_INC;
+}
+
+void lljitBEXT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
+    Value *Rs1 = LoadToReg(command.getSecondReg(), SPU, Ctx);
+    Value *Rs2 = LoadToReg(command.getThirdReg(), SPU, Ctx);
+    Value *Rd  = CreateBEXTToReg(command.getFirstReg(), Rs1, Rs2, SPU);
 }
 
 // ----------------------------------------------------------#
