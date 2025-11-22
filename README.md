@@ -1,7 +1,18 @@
-# TOY ISA (interpreter)
+# TOY ISA (interpreter/jit)
+![Ruby Badge](https://img.shields.io/badge/Ruby-CC342D?logo=ruby&logoColor=fff&style=for-the-badge)![C++ Badge](https://img.shields.io/badge/C%2B%2B-00599C?logo=cplusplus&logoColor=fff&style=for-the-badge)![CMake Badge](https://img.shields.io/badge/CMake-064F8C?logo=cmake&logoColor=fff&style=for-the-badge)![LLVM Badge](https://img.shields.io/badge/LLVM-262D3A?logo=llvm&logoColor=fff&style=for-the-badge)![GNU Bash Badge](https://img.shields.io/badge/GNU%20Bash-4EAA25?logo=gnubash&logoColor=fff&style=for-the-badge)![Python Badge](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge)
 ![alt text](readme/image.png)
 
-#### HOW TO USE (clone (🤡) these commands)
+## TOC
+ - [Description](#description)
+ - [Build](#build)
+ - [Encoder](#microassembler)
+ - [Interesting Ruby features](#ruby-features)
+ - [Simulator](#simulator)
+ - [Analyzing performance](#performance-analyzing)
+
+#### Description
+> This is a MIPT SimCourse project to make an intepreter, based on RISC-V system of commands [(it's here)](./readme/Task12.pdf)
+#### Build
 
 ```
 git clone https://github.com/Barkir/ToySim

@@ -64,17 +64,16 @@ Value *CreateMovnToReg(int numReg, Value *rd, Value *rs, Value *rt, LLSPU& spu) 
     spu.ssaMap[numReg] = retVal;
     return retVal;
 }
-
-Value *CreateBextReg(int numReg, Value *rs1, Value *rs2, LLSPU &spu) {
-    Value *REG_ALLOCA = spu.Builder.CreateAlloca(Type::getInt32Ty(spu.Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
-    Value *StoreReg   = spu.Builder.CreateStore(spu.Builder.getInt32(32), REG_ALLOCA);
-
-    Value *I_ALLOCA = spu.Builder.CreateAlloca(Type::getInt32Ty(spu.Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
-    Value *StoreReg   = spu.Builder.CreateStore(spu.Builder.getInt32(0), REG_ALLOCA);
-
-    BasicBlock *cycle = BasicBlock::Create(ctx, "BextCycle" + std::to_string(spu.regCounter++));
-
-}
+//
+// Value *CreateBextReg(int numReg, Value *rs1, Value *rs2, LLSPU &spu) {
+//     Value *REG_ALLOCA = spu.Builder.CreateAlloca(Type::getInt32Ty(spu.Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
+//     Value *StoreReg   = spu.Builder.CreateStore(spu.Builder.getInt32(32), REG_ALLOCA);
+//
+//     Value *I_ALLOCA = spu.Builder.CreateAlloca(Type::getInt32Ty(spu.Ctx), nullptr, "r" + std::to_string(spu.regCounter++));
+//     Value *StoreReg   = spu.Builder.CreateStore(spu.Builder.getInt32(0), REG_ALLOCA);
+//
+//     BasicBlock *cycle = BasicBlock::Create(ctx, "BextCycle" + std::to_string(spu.regCounter++));
+// }
 
 
 void lljitXOR(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
@@ -111,11 +110,15 @@ void lljitMOVN(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
     SPU.pc += PC_INC;
 }
 
-void lljitBEXT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
-    Value *Rs1 = LoadToReg(command.getSecondReg(), SPU, Ctx);
-    Value *Rs2 = LoadToReg(command.getThirdReg(), SPU, Ctx);
-    Value *Rd  = CreateBEXTToReg(command.getFirstReg(), Rs1, Rs2, SPU);
+void lljitSYSCALL(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
+
 }
+
+// void lljitBEXT(ToyInstruction &command, LLSPU &SPU, LLVMContext &Ctx) {
+//     Value *Rs1 = LoadToReg(command.getSecondReg(), SPU, Ctx);
+//     Value *Rs2 = LoadToReg(command.getThirdReg(), SPU, Ctx);
+//     Value *Rd  = CreateBextToReg(command.getFirstReg(), Rs1, Rs2, SPU);
+// }
 
 // ----------------------------------------------------------#
 

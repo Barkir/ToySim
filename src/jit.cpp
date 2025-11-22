@@ -121,5 +121,9 @@ int main(int argc, char **argv) {
         auto J = ExitOnErr(LLJITBuilder().create());
         auto M = createDemoModule(commands, fsize);
         ExitOnErr(J->addIRModule(std::move(M)));
+
+        //// load to cache
+        //// ir->host , pointer
+        ////
     }
 }
