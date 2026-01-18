@@ -2,6 +2,8 @@ require_relative "../toy_isa"
 
 asm = MicroAsm.new
 
+
+
 asm.prog do
     subi r8, r8, 1
     subi r9, r9, 2
@@ -23,6 +25,6 @@ asm.prog do
     label :prog_end
 
     add r8, r8, r8                  # syscall 2 - print number from r1
-    movn r1, r2, r8                 # r2 -> r1 (n fib is now in r1)
+    movn r1, r2 , r8                 # r2 -> r1 (n fib is now in r1)
     syscall
 end

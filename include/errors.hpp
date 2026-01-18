@@ -4,7 +4,7 @@ struct errorContext {
 
 };
 
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define ON_DEBUG(code) code
 #else

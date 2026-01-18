@@ -46,7 +46,7 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
     while (spu.pc < cm_sz) {
 
         auto command = getCommand(commands_1byte, spu.pc);
-        ToyInstruction commandObj(command);
+        SPUInstruction commandObj(command);
 
         uint32_t opcode = commandObj.getOpcode();
         auto it = OPCODE_MAP.find(opcode);
@@ -89,7 +89,7 @@ void init(std::vector<uint32_t> commands, size_t fsize) {
                 break;
 
             case TOY_LD:
-                callLD(spu, commandObj);
+                // callLD(spu, commandObj);
                 ON_DEBUG(spuDump(spu));
                 break;
 

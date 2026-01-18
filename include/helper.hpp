@@ -8,6 +8,10 @@
 #include <cstring>
 
 #include "errors.hpp"
+// #include "commands.hpp"
+// #include "commands_jit.hpp"
+
+const size_t JIT_THRESHOLD = 20;
 
 template<typename T>
 void hexDump(const std::vector<T>& buffer) {
@@ -80,7 +84,7 @@ enum toyCommands {
 
 
 class ToyInstruction {
-    private:
+    protected:
         uint32_t command;
         uint32_t rd;
         uint32_t imm;
@@ -88,7 +92,12 @@ class ToyInstruction {
         uint32_t rs2;
 
     public: // constructor
-        ToyInstruction(uint32_t commandIn) : command(commandIn) {}
+        ToyInstruction(uint32_t commandIn) :    command(commandIn),
+                                                rd(0),
+                                                imm(0),
+                                                rs1(0),
+                                                rs2(0)
+                                            {}
 
 
     public: // get functions
@@ -108,7 +117,7 @@ class ToyInstruction {
             return rs2;
         }
 
-        int32_t getImm() {
+        uint32_t getImm() {
             imm = command & IMM_OFFSET;
             return imm;
         }
@@ -134,7 +143,7 @@ class ToyInstruction {
         }
 
     public: // special functions
-        uint32_t getOpcode();
+        virtual uint32_t getOpcode() const = 0;
+        virtual ~ToyInstruction() = default;
 };
-
 

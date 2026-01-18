@@ -1,3 +1,5 @@
+#pragma once
+
 #include <unordered_map>
 #include <cstdint>
 #include <string>
@@ -54,14 +56,14 @@ enum toySyscalls {
 };
 struct MemorySPU {
 
-    std::vector<int8_t> memory;
+    std::vector<uint8_t> memory;
 
     public:
         MemorySPU(size_t cap) : memory(cap, 0) {} // initialize vector if size cap and value 0.
 
 
     public: // operators
-    int8_t& operator[](int32_t index) {
+    uint8_t& operator[](uint32_t index) {
         return memory[index];
     }
 
@@ -70,45 +72,48 @@ struct MemorySPU {
 
 struct SPU {
 
-    int32_t pc;
-    uint32_t regs[32];
-    size_t cap;
-
+    public:
     MemorySPU memory; // class for memory
+    size_t cap;
+    uint32_t pc;
+    uint32_t regs[32];
+
 
     SPU(size_t capIn) : memory(capIn), cap(capIn), pc(0), regs({}) {} // constructor
+    // SPU() : memory(DEFAULT_MEMORY_SIZE), cap(DEFAULT_MEMORY_SIZE), pc(0), regs({}) {}
 
 };
 
 void spuDump(SPU& spu);
 void commandDump(std::string commandName, uint32_t command);
+uint32_t sign_extend(uint32_t value, uint32_t bit_length);
 
-void callADD    (SPU& spu,      ToyInstruction command);
-void callXOR    (SPU& spu,      ToyInstruction command);
-void callMOVN   (SPU& spu,      ToyInstruction command);
-void callSYSCALL(SPU& spu,      ToyInstruction command);
-void callSUBI   (SPU& spu,      ToyInstruction command);
-void callJMP    (SPU& spu,      ToyInstruction command);
-void callBEQ    (SPU& spu,      ToyInstruction command);
-void callLD     (SPU& spu,      ToyInstruction command);
-void callLDP    (SPU& spu,      ToyInstruction command);
-void callBEXT   (SPU& spu,      ToyInstruction command);
-void callCBIT   (SPU& spu,      ToyInstruction command);
-void callST     (SPU& spu,      ToyInstruction command);
-void callRORI   (SPU& spu,      ToyInstruction command);
-void callCLS    (SPU& spu,      ToyInstruction command);
+void callADD    (SPU& spu,      ToyInstruction& command);
+void callXOR    (SPU& spu,      ToyInstruction& command);
+void callMOVN   (SPU& spu,      ToyInstruction& command);
+void callSYSCALL(SPU& spu,      ToyInstruction& command);
+void callSUBI   (SPU& spu,      ToyInstruction& command);
+void callJMP    (SPU& spu,      ToyInstruction& command);
+void callBEQ    (SPU& spu,      ToyInstruction& command);
+// void callLD     (SPU& spu,      ToyInstruction& command);
+void callLDP    (SPU& spu,      ToyInstruction& command);
+// void callBEXT   (SPU& spu,      ToyInstruction& command);
+void callCBIT   (SPU& spu,      ToyInstruction& command);
+void callST     (SPU& spu,      ToyInstruction& command);
+void callRORI   (SPU& spu,      ToyInstruction& command);
+void callCLS    (SPU& spu,      ToyInstruction& command);
 
-using funcIt = std::function<void (SPU& spu, ToyInstruction)>;
+using funcIt = std::function<void (SPU& spu, ToyInstruction&)>;
 static const std::unordered_map<uint32_t, funcIt> OPCODE_MAP {
     {TOY_JMP,       callJMP         },
     {TOY_CBIT,      callCBIT        },
     {TOY_SUBI,      callSUBI        },
     {TOY_MOVN,      callMOVN        },
     {TOY_BEQ,       callBEQ         },
-    {TOY_BEXT,      callBEXT        },
+    // {TOY_BEXT,      callBEXT        },
     {TOY_LDP,       callLDP         },
     {TOY_ADD,       callADD         },
-    {TOY_LD,        callLD          },
+    // {TOY_LD,        callLD          },
     {TOY_CLS,       callCLS         },
     {TOY_RORI,      callRORI        },
     {TOY_ST,        callST          },
@@ -127,3 +132,36 @@ struct commandHandler {
 
 uint32_t swapEndian(uint32_t value);
 
+class SPUInstruction : public ToyInstruction {
+    public:
+    SPUInstruction(uint32_t command) : ToyInstruction(command) {}
+
+    uint32_t getOpcode() const override {
+
+        // uint32 contains data in little-endian, i need to read these bytes
+        // in big-endian
+
+        // std::cout << std::bitset<32>(swappedCommand) << "\n";
+
+        uint32_t opcode1 = (command >> OPCODE_OFFSET) & OPCODE_MASK;
+        uint32_t opcode2 =  command & OPCODE_MASK;
+
+
+        // std::cout << std::bitset<32>(opcode1) << "\n";
+        // std::cout << std::bitset<32>(opcode2) << "\n";
+
+        auto it1 = OPCODE_MAP.find(opcode1);
+        auto it2 = OPCODE_MAP.find(opcode2);
+
+        if (it1 != OPCODE_MAP.end()) {
+            // ON_DEBUG(commandDump(it1->second, command));
+            return it1->first;
+        }
+        else if (it2 != OPCODE_MAP.end()) {
+            // ON_DEBUG(commandDump(it2->second, command));
+            return it2->first;
+        }
+
+        return TOY_WRONG_OPCODE;
+        }
+};
